@@ -1,17 +1,31 @@
+import java.util.Scanner;
+
 public class Cortana {
     public static void main(String[] args) {
         // ASCII art adapted from: https://patorjk.com/software/taag/
-        String logo = "   ___           _                    \n"
-                + "  / __\\___  _ __| |_ __ _ _ __   __ _ \n"
-                + " / /  / _ \\| '__| __/ _` | '_ \\ / _` |\n"
-                + "/ /__| (_) | |  | || (_| | | | | (_| |\n"
-                + "\\____/\\___/|_|   \\__\\__,_|_| |_|\\__,_|\n";
-        String line = "\n___________________________________________________";
+        String logo = "\t   ___           _                    \n"
+                + "\t  / __\\___  _ __| |_ __ _ _ __   __ _ \n"
+                + "\t / /  / _ \\| '__| __/ _` | '_ \\ / _` |\n"
+                + "\t/ /__| (_) | |  | || (_| | | | | (_| |\n"
+                + "\t\\____/\\___/|_|   \\__\\__,_|_| |_|\\__,_|\n";
+        String line = "\n\t___________________________________________________";
 
-        String greeting = "\nWelcome back Master Chief! It's\n" + logo + "\nWhat can I do for you?";
+        String greeting = "\n\tWelcome back Master Chief! It's\n" + logo + "\n\tWhat can I do for you?";
 
-        String farewell = "\nLogging off, see you again soon!";
+        String farewell = "\n\tLogging off, see you again soon!";
 
-        System.out.println(line + greeting + line + farewell + line);
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println(line + greeting + line);
+
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("bye")) {
+                System.out.println(line + farewell);
+                break;
+            } else {
+                System.out.println(line + "\n\t" + input + line);
+            }
+        }
     }
 }
