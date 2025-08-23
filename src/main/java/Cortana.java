@@ -46,9 +46,37 @@ public class Cortana {
                             System.out.println(line + "\n\tChoose a task number to carry out the action" + line);
                         }
                         break;
+                    case "todo", "deadline", "event":
+                        // e.g tokens becomes ['deadline Read book', 'by Sunday'] or ['event Project meeting, 'from Mon 2pm', 'to 4pm']
+                        tokens = input.split("/");
+                        // Limit the split to 2 parts so you get e.g ['deadline', 'Read book']
+                        String[] taskAndName = tokens[0].split(" ", 2); 
+                        String taskType = taskAndName[0];
+                        String taskName = taskAndName[1];
+                        // Use switch instead of if else statements to accommodate more task types in the future
+                        switch (taskType.toLowerCase()) {
+                            case "todo":
+                                System.out.println(line + taskList.add(new ToDos(taskName)) + line);
+                                break;
+                            case "deadline":
+                                // Use similar method to getting taskAndName to retrieve by
+                                // e.g ['by', 'Sunday'] or ['by', 'no idea :-p']
+                                String[] byAndString = tokens[1].split(" ", 2);
+                                String by = byAndString[1];
+                                System.out.println(line + taskList.add(new Deadlines(taskName, by)) + line);
+                                break;
+                            case "event":
+                                String[] fromAndString = tokens[1].split(" ", 2);
+                                String from = fromAndString[1];
+                                String[] toAndString = tokens[2].split(" ", 2);
+                                String to = toAndString[1];
+                                System.out.println(line + taskList.add(new Events(taskName, from, to)) + line);
+                                break;
+                        }
+                        break;
                     default:
-                        // Add item to task list
-                        System.out.println(line + taskList.add(new Task(input)) + line);
+                        // Deal with unknown commands
+                        System.out.println(line + "Sorry I don't understand what you want me to do, please try again" + line);
                 }
             }
         }

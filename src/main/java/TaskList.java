@@ -14,12 +14,13 @@ public class TaskList {
         if (pointer < tasks.length) {
             tasks[pointer] = task;
             pointer++;
-            return "\n\tAdded: " + task;
+            return "\n\tAdded: \n\t\t" + task + "\n\tNow you have " + (pointer) + " task(s) in the list";
         } else {
             return "\n\tTask list is full. Cannot add more tasks.";
         }
     }
 
+    // TODO: deal with the case where you are trying to mark an already marked task or unmark an unmarked task
     public String mark(boolean isMark, int taskNumber) {
         int index = taskNumber - 1;
         if (index < 0 || index >= pointer) {
@@ -37,7 +38,7 @@ public class TaskList {
         if (pointer == 0) {
             return "\n\tThere are no items in your list at the moment.";
         } else {
-            String output = "";
+            String output = "\n\tHere are the tasks in your list:";
             // For every item in the list, add it to output string
             for (int i = 0; i < pointer; i++) {
                 output += String.format("\n\t%d. %s", i + 1, tasks[i]);
