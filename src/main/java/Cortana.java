@@ -18,13 +18,19 @@ public class Cortana {
 
         System.out.println(greeting);
 
+        // Initialise
+        TaskList taskList = new TaskList();
+
         while (true) {
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("bye")) {
                 System.out.println(farewell);
                 break;
+            } else if (input.equalsIgnoreCase("list")) {
+                System.out.println(line + taskList.display() + line);
             } else {
-                System.out.println(line + "\n\t" + input + line);
+                // Add item to task list
+                System.out.println(line + taskList.add(input) + line);
             }
         }
     }
