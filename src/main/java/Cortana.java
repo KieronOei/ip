@@ -10,18 +10,18 @@ public class Cortana {
                 + "\t\\____/\\___/|_|   \\__\\__,_|_| |_|\\__,_|\n";
         String line = "\n\t___________________________________________________";
 
-        String greeting = "\n\tWelcome back Master Chief! It's\n" + logo + "\n\tWhat can I do for you?";
+        String greeting = line + "\n\tWelcome back Master Chief! It's\n" + logo + "\n\tWhat can I do for you?" + line;
 
-        String farewell = "\n\tLogging off, see you again soon!";
+        String farewell = line + "\n\tLogging off, see you again soon!" + line;
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(line + greeting + line);
+        System.out.println(greeting);
 
         while (true) {
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("bye")) {
-                System.out.println(line + farewell);
+                System.out.println(farewell);
                 break;
             } else {
                 System.out.println(line + "\n\t" + input + line);
