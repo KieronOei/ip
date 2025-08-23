@@ -23,14 +23,33 @@ public class Cortana {
 
         while (true) {
             String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("bye")) {
+            String[] tokens = input.split(" ");
+            String command = tokens[0];
+
+            if (command.equalsIgnoreCase("bye")) {
                 System.out.println(farewell);
                 break;
-            } else if (input.equalsIgnoreCase("list")) {
-                System.out.println(line + taskList.display() + line);
             } else {
-                // Add item to task list
-                System.out.println(line + taskList.add(input) + line);
+                switch (command.toLowerCase()) {
+                    case "list":
+                        System.out.println(line + taskList.display() + line);
+                        break;
+                    case "mark", "unmark":
+                        if (tokens.length > 1) {
+                            String argument = tokens[1];
+                            if (command.equalsIgnoreCase("mark")) {
+                                System.out.println(line + taskList.mark(true, Integer.parseInt(argument)) + line);
+                            } else {
+                                System.out.println(line + taskList.mark(false, Integer.parseInt(argument)) + line);
+                            }
+                        } else {
+                            System.out.println(line + "\n\tChoose a task number to carry out the action" + line);
+                        }
+                        break;
+                    default:
+                        // Add item to task list
+                        System.out.println(line + taskList.add(new Task(input)) + line);
+                }
             }
         }
     }
