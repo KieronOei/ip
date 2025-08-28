@@ -105,6 +105,14 @@ public class Cortana {
                                     break;
                             }
                             break;
+                        case "delete":
+                            if (tokens.length > 1) {
+                                String argument = tokens[1];
+                                System.out.println(line + taskList.delete(Integer.parseInt(argument)) + line);
+                            } else {
+                                throw new CortanaException("Action failed. Choose a task number to carry out the action (e.g delete 3)");
+                            }
+                            break;
                         default:
                             // Deal with unknown commands
                             throw new CortanaException("Sorry I don't understand what you want me to do, please try again");
