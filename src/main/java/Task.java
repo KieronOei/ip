@@ -7,11 +7,17 @@ public class Task {
         done = false;
     }
 
-    public void mark() {
+    public void mark() throws CortanaException {
+        if (done) {
+            throw new CortanaException("Action failed. Task is already marked as done");
+        }
         done = true;
     }
 
-    public void unmark() {
+    public void unmark() throws CortanaException {
+        if (!done) {
+            throw new CortanaException("Action failed. Task is already marked as undone");
+        }
         done = false;
     }
 

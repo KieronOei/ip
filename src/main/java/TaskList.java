@@ -10,21 +10,20 @@ public class TaskList {
         pointer = 0;
     }
 
-    public String add(Task task){
+    public String add(Task task) throws CortanaException {
         if (pointer < tasks.length) {
             tasks[pointer] = task;
             pointer++;
             return "\n\tAdded:\n\t\t" + task + "\n\tNow you have " + (pointer) + " task(s) in the list";
         } else {
-            return "\n\tTask list is full. Cannot add more tasks.";
+            throw new CortanaException("The list is full. Cannot add more tasks");
         }
     }
 
-    // TODO: deal with the case where you are trying to mark an already marked task or unmark an unmarked task
-    public String mark(boolean isMark, int taskNumber) {
+    public String mark(boolean isMark, int taskNumber) throws CortanaException {
         int index = taskNumber - 1;
         if (index < 0 || index >= pointer) {
-            return "\n\tThere is no item at the specified address";
+            throw new CortanaException("Action failed. There is no item at the specified address");
         } else if (isMark){
             tasks[index].mark();
             return "\n\tThat was quick! Task marked as done:\n\t" + tasks[index];
