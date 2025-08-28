@@ -36,8 +36,8 @@ public class TaskList {
         }
     }
 
-    // TODO: Change this to toString
-    public String display() {
+    @Override
+    public String toString() {
         if (tasks.isEmpty()) {
             return "\n\tThere are no items in your list at the moment.";
         } else {

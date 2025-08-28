@@ -33,7 +33,7 @@ public class Cortana {
                 } else {
                     switch (command.toLowerCase()) {
                         case "list":
-                            System.out.println(line + taskList.display() + line);
+                            System.out.println(line + taskList + line);
                             break;
                         case "mark", "unmark":
                             if (tokens.length > 1) {
