@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class Cortana {
     public static void main(String[] args) {
         // ASCII art adapted from: https://patorjk.com/software/taag/
-        String logo = "\t   ___           _                    \n"
-                + "\t  / __\\___  _ __| |_ __ _ _ __   __ _ \n"
+        String logo = "\t   ___           _\n"
+                + "\t  / __\\___  _ __| |_ __ _ _ __   __ _\n"
                 + "\t / /  / _ \\| '__| __/ _` | '_ \\ / _` |\n"
                 + "\t/ /__| (_) | |  | || (_| | | | | (_| |\n"
                 + "\t\\____/\\___/|_|   \\__\\__,_|_| |_|\\__,_|\n";

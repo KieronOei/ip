@@ -14,7 +14,7 @@ public class TaskList {
         if (pointer < tasks.length) {
             tasks[pointer] = task;
             pointer++;
-            return "\n\tAdded: \n\t\t" + task + "\n\tNow you have " + (pointer) + " task(s) in the list";
+            return "\n\tAdded:\n\t\t" + task + "\n\tNow you have " + (pointer) + " task(s) in the list";
         } else {
             return "\n\tTask list is full. Cannot add more tasks.";
         }
