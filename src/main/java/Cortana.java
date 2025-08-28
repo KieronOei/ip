@@ -56,21 +56,21 @@ public class Cortana {
                         // Use switch instead of if else statements to accommodate more task types in the future
                         switch (taskType.toLowerCase()) {
                             case "todo":
-                                System.out.println(line + taskList.add(new ToDos(taskName)) + line);
+                                System.out.println(line + taskList.add(new ToDo(taskName)) + line);
                                 break;
                             case "deadline":
                                 // Use similar method to getting taskAndName to retrieve by
                                 // e.g ['by', 'Sunday'] or ['by', 'no idea :-p']
                                 String[] byAndString = tokens[1].split(" ", 2);
                                 String by = byAndString[1];
-                                System.out.println(line + taskList.add(new Deadlines(taskName, by)) + line);
+                                System.out.println(line + taskList.add(new Deadline(taskName, by)) + line);
                                 break;
                             case "event":
                                 String[] fromAndString = tokens[1].split(" ", 2);
                                 String from = fromAndString[1];
                                 String[] toAndString = tokens[2].split(" ", 2);
                                 String to = toAndString[1];
-                                System.out.println(line + taskList.add(new Events(taskName, from, to)) + line);
+                                System.out.println(line + taskList.add(new Event(taskName, from, to)) + line);
                                 break;
                         }
                         break;

@@ -34,6 +34,7 @@ public class TaskList {
         }
     }
 
+    // TODO: Change this to toString
     public String display() {
         if (pointer == 0) {
             return "\n\tThere are no items in your list at the moment.";

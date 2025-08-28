@@ -1,7 +1,7 @@
-public class Events extends Task{
+public class Event extends Task{
     private String from;
     private String to;
-    public Events(String name, String from, String to) {
+    public Event(String name, String from, String to) {
         super(name);
         this.from = from;
         this.to = to;
