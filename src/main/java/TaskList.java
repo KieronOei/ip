@@ -10,7 +10,7 @@ public class TaskList {
 
     public String add(Task task) {
         tasks.add(task);
-        return "\n\tAdded:\n\t\t" + task + "\n\tNow you have " + (tasks.size()) + " task(s) in the list";
+        return CortanaString.line() + "\n\tAdded:\n\t\t" + task + "\n\tNow you have " + (tasks.size()) + " task(s) in the list" + CortanaString.line();
     }
 
     public String delete(int taskNumber) throws CortanaException {
@@ -19,21 +19,32 @@ public class TaskList {
             throw new CortanaException("Action failed. Choose a valid task number");
         } else {
             Task task = tasks.remove(index);
-            return "\n\tDeleted:\n\t\t" + task + "\n\tNow you have " + (tasks.size()) + " task(s) in the list";
+            return CortanaString.line() + "\n\tDeleted:\n\t\t" + task + "\n\tNow you have " + (tasks.size()) + " task(s) in the list" + CortanaString.line();
         }
     }
 
-    public String mark(boolean isMark, int taskNumber) throws CortanaException {
+    public String mark(int taskNumber) throws CortanaException {
         int index = taskNumber - 1;
         if (index < 0 || index >= tasks.size()) {
             throw new CortanaException("Action failed. Choose a valid task number");
-        } else if (isMark){
+        } else {
             tasks.get(index).mark();
-            return "\n\tThat was quick! Task marked as done:\n\t" + tasks.get(index);
+            return CortanaString.line() + "\n\tThat was quick! Task marked as done:\n\t" + tasks.get(index) + CortanaString.line();
+        }
+    }
+
+    public String unmark(int taskNumber) throws CortanaException {
+        int index = taskNumber - 1;
+        if (index < 0 || index >= tasks.size()) {
+            throw new CortanaException("Action failed. Choose a valid task number");
         } else {
             tasks.get(index).unmark();
-            return "\n\tNo worries! Task marked as not done yet:\n\t" + tasks.get(index);
+            return CortanaString.line() + "\n\tNo worries! Task marked as not done yet:\n\t" + tasks.get(index) + CortanaString.line();
         }
+    }
+
+    public int size() {
+        return tasks.size();
     }
 
     @Override
