@@ -37,25 +37,25 @@ public class Cortana {
                     break;
                 } else {
                     switch (command) {
-                        case LIST:
+                    case LIST:
                             System.out.println(CortanaString.line() + taskList + CortanaString.line());
                             break;
-                        case MARK:
-                            CommandHandler.markCommand(taskList, tokens, fileHandler);
-                            break;
-                        case UNMARK:
-                            CommandHandler.unMarkCommand(taskList, tokens, fileHandler);
-                            break;
-                        case TODO, DEADLINE, EVENT:
-                            // e.g tokens becomes ['deadline Read book', 'by Sunday'] or ['event Project meeting, 'from Mon 2pm', 'to 4pm']
-                            CommandHandler.taskCommand(taskList, input.split("/"), fileHandler);
-                            break;
-                        case DELETE:
-                            CommandHandler.deleteCommand(taskList, tokens, fileHandler);
-                            break;
-                        default:
-                            // Deal with unknown commands
-                            throw new CortanaException("Sorry I don't understand what you want me to do, please try again");
+                    case MARK:
+                        CommandHandler.markCommand(taskList, tokens, fileHandler);
+                        break;
+                    case UNMARK:
+                        CommandHandler.unMarkCommand(taskList, tokens, fileHandler);
+                        break;
+                    case TODO, DEADLINE, EVENT:
+                        // e.g tokens becomes ['deadline Read book', 'by Sunday'] or ['event Project meeting, 'from Mon 2pm', 'to 4pm']
+                        CommandHandler.taskCommand(taskList, input.split("/"), fileHandler);
+                        break;
+                    case DELETE:
+                        CommandHandler.deleteCommand(taskList, tokens, fileHandler);
+                        break;
+                    default:
+                        // Deal with unknown commands
+                        throw new CortanaException("Sorry I don't understand what you want me to do, please try again");
                     }
                 }
             } catch (CortanaException e) {

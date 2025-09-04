@@ -16,54 +16,54 @@ public class CommandHandler {
 
         // Use switch instead of if else statements to accommodate more task types in the future
         switch (commandType) {
-            case TODO:
-                task = new ToDo(taskName);
-                System.out.println(taskList.add(task));
-                // save
-                fileHandler.saveToDo(taskList, task.toString());
-                break;
+        case TODO:
+            task = new ToDo(taskName);
+            System.out.println(taskList.add(task));
+            // save
+            fileHandler.saveToDo(taskList, task.toString());
+            break;
 
-            case DEADLINE:
-                if (tokens.length < 2) {
-                    throw new CortanaException("Action failed. Missing '/by'");
-                }
-                // Use similar method to getting taskAndName to retrieve by
-                // e.g ['by', 'Sunday'] or ['by', 'no idea :-p']
-                String[] byAndString = tokens[1].split(" ", 2);
+        case DEADLINE:
+            if (tokens.length < 2) {
+                throw new CortanaException("Action failed. Missing '/by'");
+            }
+            // Use similar method to getting taskAndName to retrieve by
+            // e.g ['by', 'Sunday'] or ['by', 'no idea :-p']
+            String[] byAndString = tokens[1].split(" ", 2);
 
-                // If input is "deadline /by"
-                if (byAndString.length < 2 || byAndString[1].trim().isEmpty()) {
-                    throw new CortanaException("Action failed. Missing a non-empty description after '/by'");
-                }
+            // If input is "deadline /by"
+            if (byAndString.length < 2 || byAndString[1].trim().isEmpty()) {
+                throw new CortanaException("Action failed. Missing a non-empty description after '/by'");
+            }
 
-                task = new Deadline(taskName, byAndString[1].trim());
-                System.out.println(taskList.add(task));
-                // save
-                fileHandler.saveDeadline(taskList, task.toString());
-                break;
+            task = new Deadline(taskName, byAndString[1].trim());
+            System.out.println(taskList.add(task));
+            // save
+            fileHandler.saveDeadline(taskList, task.toString());
+            break;
 
-            case EVENT:
-                if (tokens.length < 3) {
-                    throw new CortanaException("Action failed. Missing '/from ' and/or '/to ' parts");
-                }
+        case EVENT:
+            if (tokens.length < 3) {
+                throw new CortanaException("Action failed. Missing '/from ' and/or '/to ' parts");
+            }
 
-                // Validate /from part
-                String[] fromAndString = tokens[1].split(" ", 2);
-                if (fromAndString.length < 2 || !fromAndString[0].equalsIgnoreCase("from") || fromAndString[1].trim().isEmpty()) {
-                    throw new CortanaException("Action failed. Missing a non-empty description after '/from'");
-                }
+            // Validate /from part
+            String[] fromAndString = tokens[1].split(" ", 2);
+            if (fromAndString.length < 2 || !fromAndString[0].equalsIgnoreCase("from") || fromAndString[1].trim().isEmpty()) {
+                throw new CortanaException("Action failed. Missing a non-empty description after '/from'");
+            }
 
-                // Validate /to part
-                String[] toAndString = tokens[2].split(" ", 2);
-                if (toAndString.length < 2 || !toAndString[0].equalsIgnoreCase("to") || toAndString[1].trim().isEmpty()) {
-                    throw new CortanaException("Action failed. Missing a non-empty description after '/to'");
-                }
+            // Validate /to part
+            String[] toAndString = tokens[2].split(" ", 2);
+            if (toAndString.length < 2 || !toAndString[0].equalsIgnoreCase("to") || toAndString[1].trim().isEmpty()) {
+                throw new CortanaException("Action failed. Missing a non-empty description after '/to'");
+            }
 
-                task = new Event(taskName, fromAndString[1].trim(), toAndString[1].trim());
-                System.out.println(taskList.add(task));
-                // save
-                fileHandler.saveEvent(taskList, task.toString());
-                break;
+            task = new Event(taskName, fromAndString[1].trim(), toAndString[1].trim());
+            System.out.println(taskList.add(task));
+            // save
+            fileHandler.saveEvent(taskList, task.toString());
+            break;
         }
 
     }
