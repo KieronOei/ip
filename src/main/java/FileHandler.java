@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
@@ -138,11 +140,15 @@ public class FileHandler {
                 taskList.add(new ToDo(taskName));
             } else if (taskCommand.equals("D")) {
                 String taskBy = parts[3];
-                taskList.add(new Deadline(taskName, taskBy));
+                LocalDateTime byDateTime = LocalDateTime.parse(taskBy, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
+                taskList.add(new Deadline(taskName, byDateTime));
             } else {
                 String taskFrom = parts[3];
                 String taskTo = parts[4];
-                taskList.add(new Event(taskName, taskFrom, taskTo));
+
+                LocalDateTime fromDateTime = LocalDateTime.parse(taskFrom, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
+                LocalDateTime toDateTime = LocalDateTime.parse(taskTo, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
+                taskList.add(new Event(taskName, fromDateTime, toDateTime));
             }
 
             if (markValue.equals("1")) {
