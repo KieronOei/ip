@@ -1,8 +1,13 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class CommandHandler {
 
     public static void taskCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
         // Declare Task object for assignment later
         Task task;
+
         // Limit the split to 2 parts so you get e.g ['deadline', 'Read book']
         String[] taskAndName = tokens[0].split(" ", 2);
 
@@ -36,7 +41,24 @@ public class CommandHandler {
                 throw new CortanaException("Action failed. Missing a non-empty description after '/by'");
             }
 
-            task = new Deadline(taskName, byAndString[1].trim());
+            // Assume byAndString[1] is "2/12/2025 1800" or "2 OCT 25 1800"
+            String byRaw = byAndString[1].trim();
+            LocalDateTime deadlineDateTime;
+
+            try {
+                // Accept multiple formats
+                DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("d M yy HHmm");
+                DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("d MMM yy HHmm");
+                try {
+                    deadlineDateTime = LocalDateTime.parse(byRaw, formatter1);
+                } catch (DateTimeParseException e1) {
+                    deadlineDateTime = LocalDateTime.parse(byRaw, formatter2);
+                }
+            }  catch (DateTimeParseException e) {
+                throw new CortanaException("Invalid date format for deadline. Please use d M yyyy HHmm or d MMM yy HHmm");
+            }
+
+            task = new Deadline(taskName, deadlineDateTime);
             System.out.println(taskList.add(task));
             // save
             fileHandler.saveDeadline(taskList, task.toString());
@@ -59,7 +81,28 @@ public class CommandHandler {
                 throw new CortanaException("Action failed. Missing a non-empty description after '/to'");
             }
 
-            task = new Event(taskName, fromAndString[1].trim(), toAndString[1].trim());
+            // Assume fromAndString[1] & toAndString[1] is "2/12/2025 1800" or "2 OCT 25 1800"
+            String fromRaw = fromAndString[1].trim();
+            String toRaw = toAndString[1].trim();
+            LocalDateTime toDateTime;
+            LocalDateTime fromDateTime;
+
+            try {
+                // Accept multiple formats
+                DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("d M yy HHmm");
+                DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("d MMM yy HHmm");
+                try {
+                    toDateTime = LocalDateTime.parse(toRaw, formatter1);
+                    fromDateTime = LocalDateTime.parse(fromRaw, formatter1);
+                } catch (DateTimeParseException e1) {
+                    toDateTime = LocalDateTime.parse(toRaw, formatter2);
+                    fromDateTime = LocalDateTime.parse(fromRaw, formatter2);
+                }
+            }  catch (DateTimeParseException e) {
+                throw new CortanaException("Invalid date format for event. Please use d M yyyy HHmm or d MMM yy HHmm");
+            }
+
+            task = new Event(taskName, fromDateTime, toDateTime);
             System.out.println(taskList.add(task));
             // save
             fileHandler.saveEvent(taskList, task.toString());
