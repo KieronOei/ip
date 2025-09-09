@@ -1,5 +1,9 @@
+package cortana.task;
+
+import cortana.exception.CortanaException;
+
 /**
- * Abstract base class representing a Task.
+ * Abstract base class representing a cortana.task.Task.
  * Contains common fields and behavior for all task types.
  */
 public abstract class Task {
@@ -7,7 +11,7 @@ public abstract class Task {
     private boolean isDone;
 
     /**
-     * Constructs a Task with the specified name.
+     * Constructs a cortana.task.Task with the specified name.
      *
      * @param name the name/description of the task
      */
@@ -23,7 +27,7 @@ public abstract class Task {
      */
     public void mark() throws CortanaException {
         if (isDone) {
-            throw new CortanaException("Action failed. Task is already marked as done");
+            throw new CortanaException("Action failed. cortana.task.Task is already marked as done");
         }
         isDone = true;
     }
@@ -35,7 +39,7 @@ public abstract class Task {
      */
     public void unmark() throws CortanaException {
         if (!isDone) {
-            throw new CortanaException("Action failed. Task is already marked as undone");
+            throw new CortanaException("Action failed. cortana.task.Task is already marked as undone");
         }
         isDone = false;
     }

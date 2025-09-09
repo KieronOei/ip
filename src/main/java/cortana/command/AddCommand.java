@@ -1,8 +1,19 @@
+package cortana.command;
+
+import cortana.exception.CortanaException;
+import cortana.storage.FileHandler;
+import cortana.task.Task;
+import cortana.task.ToDo;
+import cortana.task.Deadline;
+import cortana.task.Event;
+import cortana.task.TaskList;
+import cortana.ui.Ui;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
- * Handles adding of new tasks such as ToDo, Deadline, and Event.
+ * Handles adding of new tasks such as cortana.task.ToDo, cortana.task.Deadline, and cortana.task.Event.
  * Supports different constructors for each task type.
  */
 public class AddCommand implements Command {
@@ -13,9 +24,9 @@ public class AddCommand implements Command {
     private final LocalDateTime to;        // nullable, only for event
 
     /**
-     * Constructs an AddCommand for a ToDo task.
+     * Constructs an cortana.command.AddCommand for a cortana.task.ToDo task.
      *
-     * @param taskName The name of the ToDo task
+     * @param taskName The name of the cortana.task.ToDo task
      */
     public AddCommand(String taskName) {
         this.type = CommandType.TODO;
@@ -26,9 +37,9 @@ public class AddCommand implements Command {
     }
 
     /**
-     * Constructs an AddCommand for a Deadline task.
+     * Constructs an cortana.command.AddCommand for a cortana.task.Deadline task.
      *
-     * @param taskName The name of the Deadline task
+     * @param taskName The name of the cortana.task.Deadline task
      * @param deadline The deadline date and time
      */
     public AddCommand(String taskName, LocalDateTime deadline) {
@@ -40,9 +51,9 @@ public class AddCommand implements Command {
     }
 
     /**
-     * Constructs an AddCommand for an Event task.
+     * Constructs an cortana.command.AddCommand for an cortana.task.Event task.
      *
-     * @param taskName The name of the Event task
+     * @param taskName The name of the cortana.task.Event task
      * @param from The event start date and time
      * @param to The event end date and time
      */
@@ -58,9 +69,9 @@ public class AddCommand implements Command {
      * Executes the add command, adding the task to the task list,
      * displaying output, and saving the task to persistent storage.
      *
-     * @param tasks The TaskList to add to
+     * @param tasks The cortana.task.TaskList to add to
      * @param ui The UI for output display
-     * @param fileHandler The FileHandler for saving task data
+     * @param fileHandler The cortana.storage.FileHandler for saving task data
      * @throws CortanaException if an invalid task type is encountered
      * @throws IOException if an I/O error occurs while saving data
      */
@@ -78,7 +89,7 @@ public class AddCommand implements Command {
             task = new Event(taskName, from, to);
             break;
         default:
-            throw new CortanaException("Invalid task type in AddCommand");
+            throw new CortanaException("Invalid task type in cortana.command.AddCommand");
         }
         ui.showOutput(tasks.add(task));
         // call appropriate save method

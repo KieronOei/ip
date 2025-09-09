@@ -1,12 +1,14 @@
+package cortana.ui;
+
 import java.util.Scanner;
 
 /**
- * The Ui class handles all user interactions for the Cortana chatbot.
+ * The cortana.ui.Ui class handles all user interactions for the cortana.core.Cortana chatbot.
  * It manages input reading and formatted output display, including greetings and farewells.
  */
 public class Ui {
     /**
-     * Returns the ASCII art logo of the Cortana chatbot.
+     * Returns the ASCII art logo of the cortana.core.Cortana chatbot.
      * The art is adapted from: <a href="https://patorjk.com/software/taag/">TAAG</a>.
      */
     private static final String LOGO =
@@ -25,7 +27,7 @@ public class Ui {
     private final Scanner scanner;
 
     /**
-     * Constructs a new Ui object and initializes the input scanner.
+     * Constructs a new cortana.ui.Ui object and initializes the input scanner.
      */
     public Ui() {
         scanner = new Scanner(System.in);
@@ -50,7 +52,7 @@ public class Ui {
     }
 
     /**
-     * Displays a greeting message along with the Cortana ASCII logo.
+     * Displays a greeting message along with the cortana.core.Cortana ASCII logo.
      */
     public void showGreeting() {
         showOutput("Welcome back Master Chief! It's\n" + LOGO + "\n\tWhat can I do for you?");

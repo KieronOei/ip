@@ -1,47 +1,49 @@
+package cortana.command;
+
 /**
- * Represents the types of commands that can be processed by Cortana.
+ * Represents the types of commands that can be processed by cortana.core.Cortana.
  *
  * Includes task-related commands, task state changes, list commands, exit command,
  * and a special unknown type for unrecognized commands.
  */
 public enum CommandType {
     /**
-     * Command for creating a 'To Do' task.
+     * cortana.command.Command for creating a 'To Do' task.
      */
     TODO,
 
     /**
-     * Command for creating a 'Deadline' task.
+     * cortana.command.Command for creating a 'cortana.task.Deadline' task.
      */
     DEADLINE,
 
     /**
-     * Command for creating an 'Event' task.
+     * cortana.command.Command for creating an 'cortana.task.Event' task.
      */
     EVENT,
 
     /**
-     * Command to mark a task as done.
+     * cortana.command.Command to mark a task as done.
      */
     MARK,
 
     /**
-     * Command to unmark a task (mark as not done).
+     * cortana.command.Command to unmark a task (mark as not done).
      */
     UNMARK,
 
     /**
-     * Command to delete a task.
+     * cortana.command.Command to delete a task.
      */
     DELETE,
 
     /**
-     * Command to list all tasks.
+     * cortana.command.Command to list all tasks.
      */
     LIST,
 
     /**
-     * Command to exit the chatbot application.
+     * cortana.command.Command to exit the chatbot application.
      */
     BYE,
 
@@ -51,11 +53,11 @@ public enum CommandType {
     UNKNOWN;
 
     /**
-     * Converts a string command to corresponding CommandType enum value.
+     * Converts a string command to corresponding cortana.command.CommandType enum value.
      * Returns UNKNOWN if no matching command is found.
      *
      * @param command String command (case-insensitive)
-     * @return CommandType enum value
+     * @return cortana.command.CommandType enum value
      */
     public static CommandType fromString(String command) {
         if (command == null) {

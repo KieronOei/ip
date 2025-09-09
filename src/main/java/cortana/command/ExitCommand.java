@@ -1,3 +1,9 @@
+package cortana.command;
+
+import cortana.storage.FileHandler;
+import cortana.task.TaskList;
+import cortana.ui.Ui;
+
 /**
  * Represents the exit command which ends the chatbot session.
  */

@@ -1,3 +1,5 @@
+package cortana.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -17,7 +19,7 @@ public class Event extends Task {
     private LocalDateTime to;
 
     /**
-     * Constructs an Event task with the specified name, start time, and end time.
+     * Constructs an cortana.task.Event task with the specified name, start time, and end time.
      *
      * @param name The name or description of the event.
      * @param from The LocalDateTime when the event starts.
@@ -30,7 +32,7 @@ public class Event extends Task {
     }
 
     /**
-     * Returns a string representation of the Event task,
+     * Returns a string representation of the cortana.task.Event task,
      * including task type, completion status, name, start, and end times.
      *
      * @return A formatted string representing the event task.

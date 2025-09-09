@@ -1,8 +1,16 @@
+package cortana.core;
+
+import cortana.command.Command;
+import cortana.exception.CortanaException;
+import cortana.storage.FileHandler;
+import cortana.task.TaskList;
+import cortana.ui.Ui;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
 /**
- * The Cortana chatbot class responsible for initializing,
+ * The cortana.core.Cortana chatbot class responsible for initializing,
  * running the main input loop, and coordinating components.
  */
 public class Cortana {
@@ -12,7 +20,7 @@ public class Cortana {
     private final Ui ui;
 
     /**
-     * Initializes Cortana with the specified file path for storing tasks.
+     * Initializes cortana.core.Cortana with the specified file path for storing tasks.
      *
      * @param filePath The path to the file used for task persistence.
      */
@@ -58,9 +66,9 @@ public class Cortana {
     }
 
     /**
-     * Main method creates a Cortana instance with the task file path and runs it.
+     * Main method creates a cortana.core.Cortana instance with the task file path and runs it.
      *
-     * @param args Command line arguments (unused).
+     * @param args cortana.command.Command line arguments (unused).
      */
     public static void main(String[] args) {
         new Cortana("data/tasks.txt").run();

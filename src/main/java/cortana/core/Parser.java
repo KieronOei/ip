@@ -1,17 +1,22 @@
+package cortana.core;
+
+import cortana.command.*;
+import cortana.exception.CortanaException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * Parses user input strings and converts them into Command objects.
+ * Parses user input strings and converts them into cortana.command.Command objects.
  */
 public class Parser {
 
     /**
-     * Parses the full user input into a Command object.
+     * Parses the full user input into a cortana.command.Command object.
      *
      * @param fullCommand The raw input string from the user.
-     * @return The Command object representing the user input.
+     * @return The cortana.command.Command object representing the user input.
      * @throws CortanaException if the input is invalid or cannot be parsed.
      */
     public static Command parse(String fullCommand) throws CortanaException {
