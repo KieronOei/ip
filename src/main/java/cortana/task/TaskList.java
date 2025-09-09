@@ -82,6 +82,24 @@ public class TaskList {
   }
 
   /**
+   * Finds and returns a new TaskList containing tasks whose string representation
+   * contains the specified keyword.
+   * <p> The search is case-sensitive and checks the task's {@code toString()} output.
+   * @param keyword the keyword to search for in task descriptions
+   * @return a new TaskList containing all matching tasks
+   */
+  public TaskList find(String keyword) {
+    TaskList result = new TaskList();
+    for (Task task : tasks) {
+      if (task.toString().contains(keyword)) {
+        result.add(task);
+      }
+    }
+    return result;
+  }
+
+
+  /**
    * Returns the number of tasks in the list.
    *
    * @return the size of the task list.

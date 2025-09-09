@@ -27,21 +27,25 @@ public class Parser {
     try {
       switch (commandType) {
         case TODO:
-          if (firstTokenSplit.length < 2) throw new CortanaException("Specify task name");
+          if (firstTokenSplit.length < 2) {
+            throw new CortanaException("Specify task name");
+          }
           String todoName = fullCommand.substring(firstTokenSplit[0].length()).trim();
           return new AddCommand(todoName);
 
         case DEADLINE:
-          if (firstTokenSplit.length < 2 || splitBySlash.length < 2)
+          if (firstTokenSplit.length < 2 || splitBySlash.length < 2) {
             throw new CortanaException("Specify task name and deadline with /by");
+          }
           String deadlineName =
               firstTokenSplit[1] + (splitBySlash.length > 2 ? " " + splitBySlash[2] : "");
           LocalDateTime deadlineDate = parseDate(splitBySlash[1].trim().substring(3));
           return new AddCommand(deadlineName, deadlineDate);
 
         case EVENT:
-          if (firstTokenSplit.length < 2 || splitBySlash.length < 3)
+          if (firstTokenSplit.length < 2 || splitBySlash.length < 3) {
             throw new CortanaException("Specify task name and /from and /to times");
+          }
           String eventName =
               firstTokenSplit[1] + (splitBySlash.length > 3 ? " " + splitBySlash[3] : "");
           LocalDateTime fromDate = parseDate(splitBySlash[1].trim().substring(5));
@@ -49,21 +53,32 @@ public class Parser {
           return new AddCommand(eventName, fromDate, toDate);
 
         case MARK:
-          if (firstTokenSplit.length < 2) throw new CortanaException("Specify task number to mark");
+          if (firstTokenSplit.length < 2) {
+            throw new CortanaException("Specify task number to mark");
+          }
           int maskNumber = Integer.parseInt(firstTokenSplit[1]);
           return new MarkCommand(maskNumber);
 
         case UNMARK:
-          if (firstTokenSplit.length < 2)
+          if (firstTokenSplit.length < 2) {
             throw new CortanaException("Specify task number to unmark");
+          }
           int unMaskNumber = Integer.parseInt(firstTokenSplit[1]);
           return new UnMarkCommand(unMaskNumber);
 
         case DELETE:
-          if (firstTokenSplit.length < 2)
+          if (firstTokenSplit.length < 2) {
             throw new CortanaException("Specify task number to delete");
+          }
           int deleteIndex = Integer.parseInt(firstTokenSplit[1]);
           return new DeleteCommand(deleteIndex);
+
+        case FIND:
+          if (firstTokenSplit.length < 2) {
+            throw new CortanaException("Specify keyword to find");
+          }
+          String keyword = firstTokenSplit[1];
+          return new FindCommand(keyword);
 
         case LIST:
           return new ListCommand();

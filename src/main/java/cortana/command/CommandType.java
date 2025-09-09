@@ -28,6 +28,9 @@ public enum CommandType {
   /** cortana.command.Command to list all tasks. */
   LIST,
 
+  /** cortana.command.Command to find tasks by keywords. */
+  FIND,
+
   /** cortana.command.Command to exit the chatbot application. */
   BYE,
 
