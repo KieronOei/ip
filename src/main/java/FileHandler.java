@@ -16,6 +16,10 @@ public class FileHandler {
 
     private final Path filePath;
 
+    public String getFilePath() {
+        return filePath.toString();
+    }
+
     /**
      * Constructs a FileHandler for the given file path.
      *
@@ -32,7 +36,9 @@ public class FileHandler {
      * @throws IOException if directory or file creation fails
      */
     public void ensureFileExists() throws IOException {
-        String directoryPath = "./data";
+        // assuming txt file is stored at data/tasks.txt
+        String[] tokens = filePath.toString().split("/");
+        String directoryPath = tokens[0];
         File dir = new File(directoryPath);
         if (!dir.exists()) {
             boolean createdDir = dir.mkdirs(); // create directory and parents if needed
@@ -41,7 +47,7 @@ public class FileHandler {
             }
         }
 
-        File file = new File(dir, "cortana.txt");
+        File file = new File(dir, tokens[1]);
         if (!file.exists()) {
             boolean createdFile = file.createNewFile(); // create empty file if it doesn't exist
             if (!createdFile) {
@@ -56,7 +62,7 @@ public class FileHandler {
      *
      * @throws IOException if an I/O error occurs when accessing the file
      */
-    public void checkAndPrepareFile() throws IOException {
+    public void checkAndPrepareFile() throws IOException, CortanaException {
         ensureFileExists();
 
         try {
@@ -66,7 +72,7 @@ public class FileHandler {
             // Malformed file detected - replace with an empty file
             Files.deleteIfExists(filePath);
             Files.createFile(filePath);
-            System.out.println("\tDataFormatException detected - Resetting file to blank: " + filePath);
+            throw new CortanaException("DataFormatException detected - Resetting file to blank: " + filePath);
         }
     }
 
@@ -122,7 +128,7 @@ public class FileHandler {
      * @throws IOException if an I/O error occurs reading the file
      */
     public TaskList loadTasks() throws CortanaException, IOException {
-        TaskList taskList = new TaskList();
+        TaskList tasks = new TaskList();
 
         // Each line format examples:
         // T | 1 | Read Book
@@ -136,28 +142,30 @@ public class FileHandler {
             String markValue = parts[1];
             String taskName = parts[2];
 
+            // for ToDo tasks
             if (taskCommand.equals("T")) {
-                taskList.add(new ToDo(taskName));
+                tasks.add(new ToDo(taskName));
+            // for Deadline tasks
             } else if (taskCommand.equals("D")) {
                 String taskBy = parts[3];
                 LocalDateTime byDateTime = LocalDateTime.parse(taskBy, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
-                taskList.add(new Deadline(taskName, byDateTime));
+                tasks.add(new Deadline(taskName, byDateTime));
+            // for events tasks
             } else {
                 String taskFrom = parts[3];
                 String taskTo = parts[4];
 
                 LocalDateTime fromDateTime = LocalDateTime.parse(taskFrom, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
                 LocalDateTime toDateTime = LocalDateTime.parse(taskTo, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
-                taskList.add(new Event(taskName, fromDateTime, toDateTime));
+                tasks.add(new Event(taskName, fromDateTime, toDateTime));
             }
 
             if (markValue.equals("1")) {
                 // The task just added is at the end of the list
-                taskList.mark(taskList.size());
+                tasks.mark(tasks.size());
             }
         }
-        System.out.println("\tData has been loaded from: " + filePath + CortanaString.LINE);
-        return taskList;
+        return tasks;
     }
 
     /**
@@ -165,11 +173,11 @@ public class FileHandler {
      * The task string is expected in the format: "[T][ ] Read Book".
      * This is converted and appended as "T | 0 | Read Book".
      *
-     * @param taskList the current TaskList (not used here but may be useful)
+     * @param tasks the current TaskList (not used here but may be useful)
      * @param taskString the string representation of the ToDo task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
-    public void saveToDo(TaskList taskList, String taskString) throws CortanaException {
+    public void saveToDo(TaskList tasks, String taskString) throws CortanaException {
         String taskType = taskString.substring(1, 2);
         String description = taskString.substring(7).trim();
         String newString = taskType + " | 0 | " + description + "\n";
@@ -186,11 +194,11 @@ public class FileHandler {
      * The task string is expected in the format: "[T][ ] Read Book (by: Sunday)".
      * This is converted and appended as "T | 0 | Read Book | Sunday".
      *
-     * @param taskList the current TaskList (not used here but may be useful)
+     * @param tasks the current TaskList (not used here but may be useful)
      * @param taskString the string representation of the Deadline task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
-    public void saveDeadline(TaskList taskList, String taskString) throws CortanaException {
+    public void saveDeadline(TaskList tasks, String taskString) throws CortanaException {
         String taskType = taskString.substring(1, 2);
         // Find the substring start index of "(by: "
         int startBy = taskString.indexOf("(by: ");
@@ -213,11 +221,11 @@ public class FileHandler {
      * The task string is expected in the format: "[T][ ] Read Book (from: Sunday 4pm to: 6pm)".
      * This is converted and appended as "T | 0 | Read Book | Sunday 4pm | 6pm".
      *
-     * @param taskList the current TaskList (not used here but may be useful)
+     * @param tasks the current TaskList (not used here but may be useful)
      * @param taskString the string representation of the Event task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
-    public void saveEvent(TaskList taskList, String taskString) throws CortanaException {
+    public void saveEvent(TaskList tasks, String taskString) throws CortanaException {
         String taskType = taskString.substring(1, 2);
         // Find the substring start index of "(by: "
         int startFrom = taskString.indexOf("(from: ");
@@ -242,12 +250,12 @@ public class FileHandler {
     /**
      * Updates the done status mark value (0 or 1) on a specific line in the data file.
      *
-     * @param taskList the current TaskList (not used here but may be useful)
+     * @param tasks the current TaskList (not used here but may be useful)
      * @param lineNumber the 1-based line number to update
      * @param markValue the mark value to set ("0" or "1")
      * @throws CortanaException if an I/O error occurs during update
      */
-    public void saveMarkValue(TaskList taskList, int lineNumber, String markValue) throws CortanaException {
+    public void saveMarkValue(TaskList tasks, int lineNumber, String markValue) throws CortanaException {
         try {
             List<String> lines = Files.readAllLines(filePath);
             String line = lines.get(lineNumber - 1);
@@ -273,11 +281,11 @@ public class FileHandler {
     /**
      * Deletes a task line from the data file by line number.
      *
-     * @param taskList the current TaskList (not used here but may be useful)
+     * @param tasks the current TaskList (not used here but may be useful)
      * @param lineNumber the 1-based line number of the task to delete
      * @throws CortanaException if an I/O error occurs during delete
      */
-    public void saveDelete(TaskList taskList, int lineNumber) throws CortanaException {
+    public void saveDelete(TaskList tasks, int lineNumber) throws CortanaException {
         try {
             List<String> lines = Files.readAllLines(filePath);
             lines.remove(lineNumber - 1);

@@ -1,66 +1,68 @@
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Scanner;
 
+/**
+ * The Cortana chatbot class responsible for initializing,
+ * running the main input loop, and coordinating components.
+ */
 public class Cortana {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println(CortanaString.GREETING);
+    private final FileHandler fileHandler;
+    private TaskList tasks;
+    private final Ui ui;
 
+    /**
+     * Initializes Cortana with the specified file path for storing tasks.
+     *
+     * @param filePath The path to the file used for task persistence.
+     */
+    public Cortana(String filePath) {
+        ui = new Ui();
+        fileHandler = new FileHandler(Path.of(filePath));
+    }
+
+    /**
+     * Starts the chatbot, loading data, showing greetings,
+     * and running the command processing loop.
+     */
+    public void run() {
         // Initialise
-        FileHandler fileHandler = new FileHandler(Path.of("./data/cortana.txt"));
-        TaskList taskList = new TaskList();
-
-        // File Set Up
         try {
             fileHandler.ensureFileExists();
             fileHandler.checkAndPrepareFile();
-
-            // Try to load data
-            taskList = fileHandler.loadTasks();
+            tasks = fileHandler.loadTasks();
+            ui.showOutput("Data has been loaded from: " + fileHandler.getFilePath());
 
         } catch (IOException | CortanaException e) {
-            System.out.println("\t" + e.getMessage());
+            tasks = new TaskList();
+            ui.showOutput("Something went wrong, a new file has been created at: " + fileHandler.getFilePath());
         }
 
-        while (true) {
-            String input = scanner.nextLine();
-            try {
-                // Split words up by white space
-                String[] tokens = input.split(" ");
-                CommandType command = CommandHandler.getCommandType(tokens[0]);
+        boolean isExit = false;
 
-                // Handle command logic
-                if (command.equals(CommandType.BYE)) {
-                    System.out.println(CortanaString.FAREWELL);
-                    break;
-                } else {
-                    switch (command) {
-                    case LIST:
-                            System.out.println(CortanaString.LINE + taskList + CortanaString.LINE);
-                            break;
-                    case MARK:
-                        CommandHandler.handleMarkCommand(taskList, tokens, fileHandler);
-                        break;
-                    case UNMARK:
-                        CommandHandler.handleUnMarkCommand(taskList, tokens, fileHandler);
-                        break;
-                    case TODO, DEADLINE, EVENT:
-                        // e.g tokens becomes ['deadline Read book', 'by Sunday'] or ['event Project meeting, 'from Mon 2pm', 'to 4pm']
-                        CommandHandler.handleTaskCommand(taskList, input.split("/"), fileHandler);
-                        break;
-                    case DELETE:
-                        CommandHandler.handleDeleteCommand(taskList, tokens, fileHandler);
-                        break;
-                    default:
-                        // Deal with unknown commands
-                        throw new CortanaException("Sorry I don't understand what you want me to do, please try again");
-                    }
-                }
+        ui.showGreeting();
+
+        // Loop for user commands until exit signal
+        while (!isExit) {
+            try {
+                String fullCommand = ui.readCommand();
+                Command command = Parser.parse(fullCommand);
+                command.execute(tasks, ui, fileHandler);
+                isExit = command.isExit();
             } catch (CortanaException e) {
-                System.out.println(CortanaString.LINE+ "\n\t" + e.getMessage() + CortanaString.LINE);
+                ui.showOutput(e.getMessage());
+            } catch (IOException e) {
+                ui.showOutput("File error occurred: " + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Main method creates a Cortana instance with the task file path and runs it.
+     *
+     * @param args Command line arguments (unused).
+     */
+    public static void main(String[] args) {
+        new Cortana("data/tasks.txt").run();
     }
 }
