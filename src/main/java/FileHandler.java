@@ -156,7 +156,7 @@ public class FileHandler {
                 taskList.mark(taskList.size());
             }
         }
-        System.out.println("\tData has been loaded from: " + filePath + CortanaString.line());
+        System.out.println("\tData has been loaded from: " + filePath + CortanaString.LINE);
         return taskList;
     }
 

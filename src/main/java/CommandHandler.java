@@ -2,9 +2,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Handles commands related to task management, including adding,
+ * marking, unmarking, and deleting tasks. Supports parsing of deadlines
+ * and events with multiple date formats.
+ */
 public class CommandHandler {
 
-    public static void taskCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
+    /**
+     * Processes a task command such as todo, deadline, or event.
+     * Parses the command tokens, validates input, creates the corresponding Task,
+     * adds it to the TaskList, and saves the updated list using FileHandler.
+     *
+     * @param taskList The list of tasks currently managed
+     * @param tokens The command tokens from the user input
+     * @param fileHandler The handler responsible for saving tasks to storage
+     * @throws CortanaException if input format is invalid or required parameters are missing
+     */
+    public static void handleTaskCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
         // Declare Task object for assignment later
         Task task;
 
@@ -111,7 +126,16 @@ public class CommandHandler {
 
     }
 
-    public static void markCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
+    /**
+     * Marks a task as done based on its index provided in the tokens.
+     * Updates the TaskList and saves the mark value using FileHandler.
+     *
+     * @param taskList The list of tasks to modify
+     * @param tokens The command tokens containing the index to mark
+     * @param fileHandler The handler responsible for saving mark value changes
+     * @throws CortanaException if no valid task index is provided
+     */
+    public static void handleMarkCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
         if (tokens.length > 1) {
             String argument = tokens[1];
             System.out.println(taskList.mark(Integer.parseInt(argument)));
@@ -121,7 +145,16 @@ public class CommandHandler {
         }
     }
 
-    public static void unMarkCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
+    /**
+     * Unmarks a task (sets as not done) based on its index from the tokens.
+     * Updates the TaskList and saves the mark value using FileHandler.
+     *
+     * @param taskList The list of tasks to modify
+     * @param tokens The command tokens containing the index to unmark
+     * @param fileHandler The handler responsible for saving mark value changes
+     * @throws CortanaException if no valid task index is provided
+     */
+    public static void handleUnMarkCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
         if (tokens.length > 1) {
             String argument = tokens[1];
             System.out.println(taskList.unmark(Integer.parseInt(argument)));
@@ -131,7 +164,16 @@ public class CommandHandler {
         }
     }
 
-    public static void deleteCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
+    /**
+     * Deletes a task from the TaskList based on the index provided in tokens.
+     * Saves the updated task list using FileHandler.
+     *
+     * @param taskList The list of tasks to modify
+     * @param tokens The command tokens containing the index of the task to delete
+     * @param fileHandler The handler responsible for saving the deletion
+     * @throws CortanaException if no valid task index is provided
+     */
+    public static void handleDeleteCommand(TaskList taskList, String[] tokens, FileHandler fileHandler) throws CortanaException {
         if (tokens.length > 1) {
             String argument = tokens[1];
             System.out.println(taskList.delete(Integer.parseInt(argument)));
@@ -141,6 +183,13 @@ public class CommandHandler {
         }
     }
 
+    /**
+     * Converts a command string to a CommandType enum value.
+     * Returns UNKNOWN if the command string does not match any CommandType.
+     *
+     * @param command The command string input by the user
+     * @return Corresponding CommandType enum value or UNKNOWN if unrecognized
+     */
     public static CommandType getCommandType(String command) {
         try {
             return CommandType.valueOf(command.toUpperCase());

@@ -6,7 +6,7 @@ public class Cortana {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(CortanaString.greeting());
+        System.out.println(CortanaString.GREETING);
 
         // Initialise
         FileHandler fileHandler = new FileHandler(Path.of("./data/cortana.txt"));
@@ -33,25 +33,25 @@ public class Cortana {
 
                 // Handle command logic
                 if (command.equals(CommandType.BYE)) {
-                    System.out.println(CortanaString.farewell());
+                    System.out.println(CortanaString.FAREWELL);
                     break;
                 } else {
                     switch (command) {
                     case LIST:
-                            System.out.println(CortanaString.line() + taskList + CortanaString.line());
+                            System.out.println(CortanaString.LINE + taskList + CortanaString.LINE);
                             break;
                     case MARK:
-                        CommandHandler.markCommand(taskList, tokens, fileHandler);
+                        CommandHandler.handleMarkCommand(taskList, tokens, fileHandler);
                         break;
                     case UNMARK:
-                        CommandHandler.unMarkCommand(taskList, tokens, fileHandler);
+                        CommandHandler.handleUnMarkCommand(taskList, tokens, fileHandler);
                         break;
                     case TODO, DEADLINE, EVENT:
                         // e.g tokens becomes ['deadline Read book', 'by Sunday'] or ['event Project meeting, 'from Mon 2pm', 'to 4pm']
-                        CommandHandler.taskCommand(taskList, input.split("/"), fileHandler);
+                        CommandHandler.handleTaskCommand(taskList, input.split("/"), fileHandler);
                         break;
                     case DELETE:
-                        CommandHandler.deleteCommand(taskList, tokens, fileHandler);
+                        CommandHandler.handleDeleteCommand(taskList, tokens, fileHandler);
                         break;
                     default:
                         // Deal with unknown commands
@@ -59,7 +59,7 @@ public class Cortana {
                     }
                 }
             } catch (CortanaException e) {
-                System.out.println(CortanaString.line() + "\n\t" + e.getMessage() + CortanaString.line());
+                System.out.println(CortanaString.LINE+ "\n\t" + e.getMessage() + CortanaString.LINE);
             }
         }
     }

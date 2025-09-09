@@ -1,28 +1,28 @@
 public class Task {
     private String name;
-    private boolean done;
+    private boolean isDone;
 
     public Task(String name) {
         this.name = name;
-        done = false;
+        isDone = false;
     }
 
     public void mark() throws CortanaException {
-        if (done) {
-            throw new CortanaException("Action failed. Task is already marked as done");
+        if (isDone) {
+            throw new CortanaException("Action failed. Task is already marked as isDone");
         }
-        done = true;
+        isDone = true;
     }
 
     public void unmark() throws CortanaException {
-        if (!done) {
+        if (!isDone) {
             throw new CortanaException("Action failed. Task is already marked as undone");
         }
-        done = false;
+        isDone = false;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", done ? "X" : " ", name);
+        return String.format("[%s] %s", isDone ? "X" : " ", name);
     }
 }
