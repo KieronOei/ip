@@ -19,8 +19,8 @@ public class Cortana {
   private TaskList tasks;
 
   /**
-   * Initializes a new instance of the Cortana chatbot with the specified UI and file handler
-   * components.
+   * Initializes a new instance of the Cortana chatbot with
+   * the specified UI and file handler components.
    *
    * @param ui The UI component used for user interaction.
    * @param fileHandler The file handler used for task persistence.
@@ -29,6 +29,7 @@ public class Cortana {
     this.ui = ui;
     this.fileHandler = fileHandler;
   }
+
 
   /**
    * Main method creates a cortana.core.Cortana instance with the task file path and runs it.
@@ -40,11 +41,11 @@ public class Cortana {
   }
 
   /**
-   * Initializes the chatbot by ensuring the task file exists, preparing it, loading tasks, and
-   * displaying relevant output messages.
-   *
-   * <p>If loading tasks fails due to IO or Cortana exceptions, a new task list is created, and an
-   * appropriate message is displayed. Finally, it shows a greeting message to the user.
+   * Initializes the chatbot by ensuring the task file exists, preparing it,
+   * loading tasks, and displaying relevant output messages.
+   * If loading tasks fails due to IO or Cortana exceptions, a new task list is created,
+   * and an appropriate message is displayed.
+   * Finally, it shows a greeting message to the user.
    */
   public void initialize() {
     try {
@@ -54,8 +55,7 @@ public class Cortana {
       ui.showOutput("Data has been loaded from: " + fileHandler.getFilePath());
     } catch (IOException | CortanaException e) {
       tasks = new TaskList();
-      ui.showOutput(
-          "Something went wrong, a new file has been created at: " + fileHandler.getFilePath());
+      ui.showOutput("Something went wrong, a new file has been created at: " + fileHandler.getFilePath());
     }
     ui.showGreeting();
   }
