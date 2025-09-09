@@ -5,7 +5,6 @@ import cortana.task.Deadline;
 import cortana.task.Event;
 import cortana.task.TaskList;
 import cortana.task.ToDo;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,10 +23,6 @@ public class FileHandler {
 
     private final Path filePath;
 
-    public String getFilePath() {
-        return filePath.toString();
-    }
-
     /**
      * Constructs a cortana.storage.FileHandler for the given file path.
      *
@@ -35,6 +30,10 @@ public class FileHandler {
      */
     public FileHandler(Path filePath) {
         this.filePath = filePath;
+    }
+
+    public String getFilePath() {
+        return filePath.toString();
     }
 
     /**
