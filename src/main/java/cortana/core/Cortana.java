@@ -43,10 +43,8 @@ public class Cortana {
   /**
    * Initializes the chatbot by ensuring the task file exists, preparing it,
    * loading tasks, and displaying relevant output messages.
-   * <p>
    * If loading tasks fails due to IO or Cortana exceptions, a new task list is created,
    * and an appropriate message is displayed.
-   * <p>
    * Finally, it shows a greeting message to the user.
    */
   public void initialize() {
