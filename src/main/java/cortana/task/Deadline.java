@@ -1,3 +1,5 @@
+package cortana.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,7 +14,7 @@ public class Deadline extends Task {
     private LocalDateTime by;
 
     /**
-     * Constructs a Deadline task with the specified name and deadline time.
+     * Constructs a cortana.task.Deadline task with the specified name and deadline time.
      *
      * @param name The name or description of the deadline task.
      * @param by The LocalDateTime by which the task is due.
@@ -23,7 +25,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Returns a string representation of the Deadline task,
+     * Returns a string representation of the cortana.task.Deadline task,
      * including the task type, completion status, name, and formatted deadline.
      *
      * @return A formatted string representing the deadline task.

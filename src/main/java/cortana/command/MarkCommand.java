@@ -1,3 +1,10 @@
+package cortana.command;
+
+import cortana.exception.CortanaException;
+import cortana.storage.FileHandler;
+import cortana.task.TaskList;
+import cortana.ui.Ui;
+
 import java.io.IOException;
 
 /**
@@ -7,7 +14,7 @@ public class MarkCommand implements Command {
     private final int taskNumber;
 
     /**
-     * Constructs a MarkCommand for marking a specific task.
+     * Constructs a cortana.command.MarkCommand for marking a specific task.
      *
      * @param taskNumber The index of the task to mark (1-based)
      */
@@ -17,7 +24,7 @@ public class MarkCommand implements Command {
 
     /**
      * Executes the command to mark the specified task as done.
-     * Updates the task list and persists the mark status using FileHandler.
+     * Updates the task list and persists the mark status using cortana.storage.FileHandler.
      *
      * @param taskList The list of tasks to modify
      * @param ui The UI for displaying output messages

@@ -1,3 +1,7 @@
+package cortana.task;
+
+import cortana.exception.CortanaException;
+
 import java.util.ArrayList;
 
 /**
@@ -10,7 +14,7 @@ public class TaskList {
     private ArrayList<Task> tasks;
 
     /**
-     * Constructs a TaskList with an initial capacity of 100.
+     * Constructs a cortana.task.TaskList with an initial capacity of 100.
      */
     public TaskList() {
         // Similar to Level 2, assume capacity of 100 items
@@ -58,7 +62,7 @@ public class TaskList {
             throw new CortanaException("Action failed. Choose a valid task number");
         } else {
             tasks.get(index).mark();
-            return "That was quick! Task marked as done:\n\t" + tasks.get(index);
+            return "That was quick! cortana.task.Task marked as done:\n\t" + tasks.get(index);
         }
     }
 
@@ -75,7 +79,7 @@ public class TaskList {
             throw new CortanaException("Action failed. Choose a valid task number");
         } else {
             tasks.get(index).unmark();
-            return "No worries! Task marked as not done yet:\n\t" + tasks.get(index);
+            return "No worries! cortana.task.Task marked as not done yet:\n\t" + tasks.get(index);
         }
     }
 
