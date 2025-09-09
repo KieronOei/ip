@@ -79,17 +79,17 @@ public class AddCommand implements Command {
       throws CortanaException, IOException {
     Task task;
     switch (type) {
-      case TODO:
-        task = new ToDo(taskName);
-        break;
-      case DEADLINE:
-        task = new Deadline(taskName, deadline);
-        break;
-      case EVENT:
-        task = new Event(taskName, from, to);
-        break;
-      default:
-        throw new CortanaException("Invalid task type in cortana.command.AddCommand");
+    case TODO:
+      task = new ToDo(taskName);
+      break;
+    case DEADLINE:
+      task = new Deadline(taskName, deadline);
+      break;
+    case EVENT:
+      task = new Event(taskName, from, to);
+      break;
+    default:
+      throw new CortanaException("Invalid task type in cortana.command.AddCommand");
     }
     ui.showOutput(tasks.add(task));
     // call appropriate save method

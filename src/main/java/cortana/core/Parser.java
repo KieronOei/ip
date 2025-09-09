@@ -1,6 +1,13 @@
 package cortana.core;
 
-import cortana.command.*;
+import cortana.command.AddCommand;
+import cortana.command.DeleteCommand;
+import cortana.command.ExitCommand;
+import cortana.command.ListCommand;
+import cortana.command.MarkCommand;
+import cortana.command.UnMarkCommand;
+import cortana.command.CommandType;
+import cortana.command.Command;
 import cortana.exception.CortanaException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,53 +33,53 @@ public class Parser {
 
     try {
       switch (commandType) {
-        case TODO:
-          if (firstTokenSplit.length < 2) throw new CortanaException("Specify task name");
-          String todoName = fullCommand.substring(firstTokenSplit[0].length()).trim();
-          return new AddCommand(todoName);
+      case TODO:
+        if (firstTokenSplit.length < 2) throw new CortanaException("Specify task name");
+        String todoName = fullCommand.substring(firstTokenSplit[0].length()).trim();
+        return new AddCommand(todoName);
 
-        case DEADLINE:
-          if (firstTokenSplit.length < 2 || splitBySlash.length < 2)
-            throw new CortanaException("Specify task name and deadline with /by");
-          String deadlineName =
-              firstTokenSplit[1] + (splitBySlash.length > 2 ? " " + splitBySlash[2] : "");
-          LocalDateTime deadlineDate = parseDate(splitBySlash[1].trim().substring(3));
-          return new AddCommand(deadlineName, deadlineDate);
+      case DEADLINE:
+        if (firstTokenSplit.length < 2 || splitBySlash.length < 2)
+          throw new CortanaException("Specify task name and deadline with /by");
+        String deadlineName =
+            firstTokenSplit[1] + (splitBySlash.length > 2 ? " " + splitBySlash[2] : "");
+        LocalDateTime deadlineDate = parseDate(splitBySlash[1].trim().substring(3));
+        return new AddCommand(deadlineName, deadlineDate);
 
-        case EVENT:
-          if (firstTokenSplit.length < 2 || splitBySlash.length < 3)
-            throw new CortanaException("Specify task name and /from and /to times");
-          String eventName =
-              firstTokenSplit[1] + (splitBySlash.length > 3 ? " " + splitBySlash[3] : "");
-          LocalDateTime fromDate = parseDate(splitBySlash[1].trim().substring(5));
-          LocalDateTime toDate = parseDate(splitBySlash[2].trim().substring(3));
-          return new AddCommand(eventName, fromDate, toDate);
+      case EVENT:
+        if (firstTokenSplit.length < 2 || splitBySlash.length < 3)
+          throw new CortanaException("Specify task name and /from and /to times");
+        String eventName =
+            firstTokenSplit[1] + (splitBySlash.length > 3 ? " " + splitBySlash[3] : "");
+        LocalDateTime fromDate = parseDate(splitBySlash[1].trim().substring(5));
+        LocalDateTime toDate = parseDate(splitBySlash[2].trim().substring(3));
+        return new AddCommand(eventName, fromDate, toDate);
 
-        case MARK:
-          if (firstTokenSplit.length < 2) throw new CortanaException("Specify task number to mark");
-          int maskNumber = Integer.parseInt(firstTokenSplit[1]);
-          return new MarkCommand(maskNumber);
+      case MARK:
+        if (firstTokenSplit.length < 2) throw new CortanaException("Specify task number to mark");
+        int maskNumber = Integer.parseInt(firstTokenSplit[1]);
+        return new MarkCommand(maskNumber);
 
-        case UNMARK:
-          if (firstTokenSplit.length < 2)
-            throw new CortanaException("Specify task number to unmark");
-          int unMaskNumber = Integer.parseInt(firstTokenSplit[1]);
-          return new UnMarkCommand(unMaskNumber);
+      case UNMARK:
+        if (firstTokenSplit.length < 2)
+          throw new CortanaException("Specify task number to unmark");
+        int unMaskNumber = Integer.parseInt(firstTokenSplit[1]);
+        return new UnMarkCommand(unMaskNumber);
 
-        case DELETE:
-          if (firstTokenSplit.length < 2)
-            throw new CortanaException("Specify task number to delete");
-          int deleteIndex = Integer.parseInt(firstTokenSplit[1]);
-          return new DeleteCommand(deleteIndex);
+      case DELETE:
+        if (firstTokenSplit.length < 2)
+          throw new CortanaException("Specify task number to delete");
+        int deleteIndex = Integer.parseInt(firstTokenSplit[1]);
+        return new DeleteCommand(deleteIndex);
 
-        case LIST:
-          return new ListCommand();
+      case LIST:
+        return new ListCommand();
 
-        case BYE:
-          return new ExitCommand();
+      case BYE:
+        return new ExitCommand();
 
-        default:
-          throw new CortanaException("I don't understand the command.");
+      default:
+        throw new CortanaException("I don't understand the command.");
       }
     } catch (NumberFormatException e) { // Catch the case when parseInt processes non-digits
       throw new CortanaException("Invalid number format.");
