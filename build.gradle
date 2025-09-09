@@ -43,6 +43,7 @@ application {
 
 shadowJar {
     archiveBaseName = "cortana"
+    archiveVersion = "0.8"
     archiveClassifier = null
 }
 
