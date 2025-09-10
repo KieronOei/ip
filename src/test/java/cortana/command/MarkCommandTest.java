@@ -1,14 +1,18 @@
 package cortana.command;
 
-import cortana.exception.CortanaException;
+// import cortana.exception.CortanaException;
+
+import static org.mockito.Mockito.mock;
+// import static org.mockito.Mockito.verify;
+
+import org.junit.jupiter.api.BeforeEach;
+
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
 import cortana.ui.Ui;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.io.IOException;
 
-import static org.mockito.Mockito.*;
+//  import org.junit.jupiter.api.Test;
+// import java.io.IOException;
 
 public class MarkCommandTest {
 
@@ -22,12 +26,12 @@ public class MarkCommandTest {
         ui = mock(Ui.class);
         fileHandler = mock(FileHandler.class);
     }
-//  TODO: FIX THIS
-//    @Test
-//    public void testExecute() throws CortanaException, IOException {
-//        MarkCommand markCmd = new MarkCommand(2);
-//        markCmd.execute(tasks, ui, fileHandler);
-//        verify(ui).showOutput(anyString());
-//        verify(fileHandler).saveMarkValue(tasks, 2, "1");
-//    }
+    //  TODO: FIX THIS
+    //    @Test
+    //    public void testExecute() throws CortanaException, IOException {
+    //        MarkCommand markCmd = new MarkCommand(2);
+    //        markCmd.execute(tasks, ui, fileHandler);
+    //        verify(ui).showOutput(anyString());
+    //        verify(fileHandler).saveMarkValue(tasks, 2, "1");
+    //    }
 }

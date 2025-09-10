@@ -1,14 +1,19 @@
 package cortana.command;
 
-import cortana.exception.CortanaException;
+
+// import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
+
+import org.junit.jupiter.api.BeforeEach;
+
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
 import cortana.ui.Ui;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.io.IOException;
 
-import static org.mockito.Mockito.*;
+//import cortana.exception.CortanaException;
+// import org.junit.jupiter.api.Test;
+
+// import java.io.IOException;
 
 public class UnMarkCommandTest {
 
@@ -22,12 +27,12 @@ public class UnMarkCommandTest {
         ui = mock(Ui.class);
         fileHandler = mock(FileHandler.class);
     }
-//    TODO: FIX THIS
-//    @Test
-//    public void testExecute() throws CortanaException, IOException {
-//        UnMarkCommand unmarkCmd = new UnMarkCommand(3);
-//        unmarkCmd.execute(tasks, ui, fileHandler);
-//        verify(ui).showOutput(anyString());
-//        verify(fileHandler).saveMarkValue(tasks, 3, "0");
-//    }
+    //    TODO: FIX THIS
+    //    @Test
+    //    public void testExecute() throws CortanaException, IOException {
+    //        UnMarkCommand unmarkCmd = new UnMarkCommand(3);
+    //        unmarkCmd.execute(tasks, ui, fileHandler);
+    //        verify(ui).showOutput(anyString());
+    //        verify(fileHandler).saveMarkValue(tasks, 3, "0");
+    //    }
 }

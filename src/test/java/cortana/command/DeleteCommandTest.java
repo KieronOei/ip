@@ -1,16 +1,22 @@
 package cortana.command;
 
-import cortana.exception.CortanaException;
+//import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
+
+import org.junit.jupiter.api.BeforeEach;
+
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
 import cortana.ui.Ui;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import java.io.IOException;
+//import static org.mockito.Mockito.eq;
 
-import static org.mockito.Mockito.*;
+
+//import java.io.IOException;
+//import org.junit.jupiter.api.Test;
+//import org.mockito.Mockito;
+
+// import cortana.exception.CortanaException;
 
 public class DeleteCommandTest {
 
@@ -24,12 +30,12 @@ public class DeleteCommandTest {
         ui = mock(Ui.class);
         fileHandler = mock(FileHandler.class);
     }
-//  TODO FIX
-//    @Test
-//    public void testExecute() throws CortanaException, IOException {
-//        DeleteCommand delCmd = new DeleteCommand(1);
-//        delCmd.execute(tasks, ui, fileHandler);
-//        verify(ui).showOutput(anyString());
-//        verify(fileHandler).saveDelete(tasks, 1);
-//    }
+    //  TODO FIX
+    //    @Test
+    //    public void testExecute() throws CortanaException, IOException {
+    //        DeleteCommand delCmd = new DeleteCommand(1);
+    //        delCmd.execute(tasks, ui, fileHandler);
+    //        verify(ui).showOutput(anyString());
+    //        verify(fileHandler).saveDelete(tasks, 1);
+    //    }
 }

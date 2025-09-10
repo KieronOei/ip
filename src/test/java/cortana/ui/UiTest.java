@@ -1,11 +1,11 @@
 package cortana.ui;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class UiTest {
 
@@ -19,7 +19,9 @@ class UiTest {
 
         String printed = out.toString();
         assertTrue(printed.contains("Hello World"));
-        assertTrue(printed.contains("________________________________________________________________________________"));
+        final String line = "________________________________________________________________________________";
+        assertTrue(printed.contains(line));
+
 
         System.setOut(System.out); // reset
     }

@@ -1,18 +1,17 @@
 package cortana.core;
 
-import cortana.command.Command;
-import cortana.exception.CortanaException;
-import cortana.storage.FileHandler;
-import cortana.task.TaskList;
-import cortana.ui.Ui;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import cortana.exception.CortanaException;
+import cortana.storage.FileHandler;
+import cortana.ui.Ui;
 
 public class CortanaTest {
 
