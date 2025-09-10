@@ -1,61 +1,74 @@
 package cortana.core;
 
-import cortana.command.*;
-import cortana.exception.CortanaException;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
+import cortana.command.AddCommand;
+import cortana.command.Command;
+import cortana.command.DeleteCommand;
+import cortana.command.ExitCommand;
+import cortana.command.FindCommand;
+import cortana.command.ListCommand;
+import cortana.command.MarkCommand;
+import cortana.command.UnMarkCommand;
+import cortana.exception.CortanaException;
 
 public class ParserTest {
 
     @Test
     void parse_todoCommand() throws CortanaException {
         Command cmd = Parser.parse("todo read book");
-        assertTrue(cmd instanceof AddCommand);
+        assertInstanceOf(AddCommand.class, cmd);
     }
 
     @Test
     void parse_deadlineCommand() throws CortanaException {
         Command cmd = Parser.parse("deadline submit assignment /by 4 9 25 2359");
-        assertTrue(cmd instanceof AddCommand);
+        assertInstanceOf(AddCommand.class, cmd);
     }
 
     @Test
     void parse_eventCommand() throws CortanaException {
         Command cmd = Parser.parse("event project meeting /from 4 9 25 1500 /to 4 9 25 1600");
-        assertTrue(cmd instanceof AddCommand);
+        assertInstanceOf(AddCommand.class, cmd);
     }
 
     @Test
     void parse_markCommand() throws CortanaException {
         Command cmd = Parser.parse("mark 1");
-        assertTrue(cmd instanceof MarkCommand);
+        assertInstanceOf(MarkCommand.class, cmd);
     }
 
     @Test
     void parse_unmarkCommand() throws CortanaException {
         Command cmd = Parser.parse("unmark 1");
-        assertTrue(cmd instanceof UnMarkCommand);
+        assertInstanceOf(UnMarkCommand.class, cmd);
     }
 
     @Test
     void parse_deleteCommand() throws CortanaException {
         Command cmd = Parser.parse("delete 1");
-        assertTrue(cmd instanceof DeleteCommand);
+        assertInstanceOf(DeleteCommand.class, cmd);
+    }
+
+    @Test
+    void parse_findCommand() throws CortanaException {
+        Command cmd = Parser.parse("find");
+        assertInstanceOf(FindCommand.class, cmd);
     }
 
     @Test
     void parse_listCommand() throws CortanaException {
         Command cmd = Parser.parse("list");
-        assertTrue(cmd instanceof ListCommand);
+        assertInstanceOf(ListCommand.class, cmd);
     }
 
     @Test
     void parse_byeCommand() throws CortanaException {
         Command cmd = Parser.parse("bye");
-        assertTrue(cmd instanceof ExitCommand);
+        assertInstanceOf(ExitCommand.class, cmd);
     }
 
     @Test

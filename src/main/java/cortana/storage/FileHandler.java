@@ -1,10 +1,5 @@
 package cortana.storage;
 
-import cortana.exception.CortanaException;
-import cortana.task.Deadline;
-import cortana.task.Event;
-import cortana.task.TaskList;
-import cortana.task.ToDo;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,6 +9,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.zip.DataFormatException;
+
+import cortana.exception.CortanaException;
+import cortana.task.Deadline;
+import cortana.task.Event;
+import cortana.task.TaskList;
+import cortana.task.ToDo;
 
 /**
  * Handles file operations related to task persistence.
@@ -86,7 +87,7 @@ public class FileHandler {
     /**
      * Validates the format of each line in the data file.
      *
-     * @throws IOException if an I/O error occurs reading the file
+     * @throws IOException         if an I/O error occurs reading the file
      * @throws DataFormatException if any line is incorrectly formatted
      */
     private void validateFileFormat() throws IOException, DataFormatException {
@@ -132,7 +133,7 @@ public class FileHandler {
      *
      * @return the cortana.task.TaskList loaded from the file
      * @throws CortanaException if there is an error related to task creation
-     * @throws IOException if an I/O error occurs reading the file
+     * @throws IOException      if an I/O error occurs reading the file
      */
     public TaskList loadTasks() throws CortanaException, IOException {
         TaskList tasks = new TaskList();
@@ -152,18 +153,20 @@ public class FileHandler {
             // for cortana.task.ToDo tasks
             if (taskCommand.equals("T")) {
                 tasks.add(new ToDo(taskName));
-            // for cortana.task.Deadline tasks
+                // for cortana.task.Deadline tasks
             } else if (taskCommand.equals("D")) {
                 String taskBy = parts[3];
                 LocalDateTime byDateTime = LocalDateTime.parse(taskBy, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
                 tasks.add(new Deadline(taskName, byDateTime));
-            // for events tasks
+                // for events tasks
             } else {
                 String taskFrom = parts[3];
                 String taskTo = parts[4];
 
-                LocalDateTime fromDateTime = LocalDateTime.parse(taskFrom, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
-                LocalDateTime toDateTime = LocalDateTime.parse(taskTo, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
+                LocalDateTime fromDateTime = LocalDateTime.parse(
+                            taskFrom, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
+                LocalDateTime toDateTime = LocalDateTime.parse(
+                            taskTo, DateTimeFormatter.ofPattern("dd MMM yy HHmm"));
                 tasks.add(new Event(taskName, fromDateTime, toDateTime));
             }
 
@@ -180,7 +183,7 @@ public class FileHandler {
      * The task string is expected in the format: "[T][ ] Read Book".
      * This is converted and appended as "T | 0 | Read Book".
      *
-     * @param tasks the current cortana.task.TaskList (not used here but may be useful)
+     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param taskString the string representation of the cortana.task.ToDo task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
@@ -201,7 +204,7 @@ public class FileHandler {
      * The task string is expected in the format: "[T][ ] Read Book (by: Sunday)".
      * This is converted and appended as "T | 0 | Read Book | Sunday".
      *
-     * @param tasks the current cortana.task.TaskList (not used here but may be useful)
+     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param taskString the string representation of the cortana.task.Deadline task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
@@ -228,7 +231,7 @@ public class FileHandler {
      * The task string is expected in the format: "[T][ ] Read Book (from: Sunday 4pm to: 6pm)".
      * This is converted and appended as "T | 0 | Read Book | Sunday 4pm | 6pm".
      *
-     * @param tasks the current cortana.task.TaskList (not used here but may be useful)
+     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param taskString the string representation of the cortana.task.Event task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
@@ -243,7 +246,7 @@ public class FileHandler {
         String from = taskString.substring(startFrom, startTo).trim();
 
         int endTo = taskString.indexOf(")", startTo);
-        String to  = taskString.substring(startTo + "to: ".length(), endTo).trim();
+        String to = taskString.substring(startTo + "to: ".length(), endTo).trim();
 
         String newString = taskType + " | 0 | " + description + " | " + from + " | " + to + "\n";
 
@@ -257,9 +260,9 @@ public class FileHandler {
     /**
      * Updates the done status mark value (0 or 1) on a specific line in the data file.
      *
-     * @param tasks the current cortana.task.TaskList (not used here but may be useful)
+     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param lineNumber the 1-based line number to update
-     * @param markValue the mark value to set ("0" or "1")
+     * @param markValue  the mark value to set ("0" or "1")
      * @throws CortanaException if an I/O error occurs during update
      */
     public void saveMarkValue(TaskList tasks, int lineNumber, String markValue) throws CortanaException {
@@ -288,7 +291,7 @@ public class FileHandler {
     /**
      * Deletes a task line from the data file by line number.
      *
-     * @param tasks the current cortana.task.TaskList (not used here but may be useful)
+     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param lineNumber the 1-based line number of the task to delete
      * @throws CortanaException if an I/O error occurs during delete
      */

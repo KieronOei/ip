@@ -1,12 +1,14 @@
 package cortana.command;
 
-import cortana.storage.FileHandler;
-import cortana.task.TaskList;
-import cortana.ui.Ui;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.*;
+import cortana.storage.FileHandler;
+import cortana.task.TaskList;
+import cortana.ui.Ui;
 
 public class ExitCommandTest {
 
@@ -26,6 +28,6 @@ public class ExitCommandTest {
         ExitCommand exitCmd = new ExitCommand();
         exitCmd.execute(tasks, ui, fileHandler);
         verify(ui).showFarewell();
-        assert(exitCmd.isExit());
+        assert (exitCmd.isExit());
     }
 }
