@@ -5,7 +5,6 @@ import java.nio.file.Path;
 
 import cortana.core.Cortana;
 import cortana.storage.FileHandler;
-import cortana.ui.Ui;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +16,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Cortana cortana = new Cortana(new Ui(), new FileHandler(Path.of("data/tasks.txt")));
+    private Cortana cortana = new Cortana(new FileHandler(Path.of("data/tasks.txt")));
 
     @Override
     public void start(Stage stage) {

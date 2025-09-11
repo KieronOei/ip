@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
-import cortana.ui.Ui;
 
 //  import org.junit.jupiter.api.Test;
 // import java.io.IOException;
@@ -17,13 +16,11 @@ import cortana.ui.Ui;
 public class MarkCommandTest {
 
     private TaskList tasks;
-    private Ui ui;
     private FileHandler fileHandler;
 
     @BeforeEach
     public void setUp() {
         tasks = mock(TaskList.class);
-        ui = mock(Ui.class);
         fileHandler = mock(FileHandler.class);
     }
     //  TODO: FIX THIS

@@ -5,7 +5,6 @@ import java.io.IOException;
 import cortana.exception.CortanaException;
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
-import cortana.ui.Ui;
 
 /**
  * Unmarks a task (marks it as not done) based on its index.
@@ -27,7 +26,7 @@ public class UnMarkCommand implements Command {
      * status using cortana.storage.FileHandler.
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, FileHandler fileHandler)
+    public String execute(TaskList taskList, FileHandler fileHandler)
             throws CortanaException, IOException {
         String output = taskList.unmark(taskNumber);
         fileHandler.saveMarkValue(taskList, taskNumber, "0");

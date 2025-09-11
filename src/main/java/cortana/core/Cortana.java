@@ -6,7 +6,6 @@ import cortana.command.Command;
 import cortana.exception.CortanaException;
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
-import cortana.ui.Ui;
 
 /**
  * The cortana.core.Cortana chatbot class responsible for initializing,
@@ -15,18 +14,15 @@ import cortana.ui.Ui;
 public class Cortana {
 
     private final FileHandler fileHandler;
-    private final Ui ui;
     private TaskList tasks;
 
     /**
      * Initializes a new instance of the Cortana chatbot with
      * the specified UI and file handler components.
      *
-     * @param ui          The UI component used for user interaction.
      * @param fileHandler The file handler used for task persistence.
      */
-    public Cortana(Ui ui, FileHandler fileHandler) {
-        this.ui = ui;
+    public Cortana(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
     }
 
@@ -55,7 +51,7 @@ public class Cortana {
     public String getResponse(String input) {
         try {
             Command command = Parser.parse(input);
-            return command.execute(tasks, ui, fileHandler);
+            return command.execute(tasks, fileHandler);
         } catch (IOException | CortanaException e) {
             return e.getMessage();
         }

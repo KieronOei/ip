@@ -5,7 +5,6 @@ import java.io.IOException;
 import cortana.exception.CortanaException;
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
-import cortana.ui.Ui;
 
 /**
  * Marks a task as done based on its index.
@@ -27,7 +26,7 @@ public class MarkCommand implements Command {
      * mark status using cortana.storage.FileHandler.
      */
     @Override
-    public String execute(TaskList taskList, Ui ui, FileHandler fileHandler)
+    public String execute(TaskList taskList, FileHandler fileHandler)
             throws CortanaException, IOException {
         String output = taskList.mark(taskNumber);
         fileHandler.saveMarkValue(taskList, taskNumber, "1");

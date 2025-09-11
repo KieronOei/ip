@@ -5,7 +5,6 @@ import java.io.IOException;
 import cortana.exception.CortanaException;
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
-import cortana.ui.Ui;
 
 /**
  * Finds tasks containing the specified keyword in their description
@@ -32,7 +31,7 @@ public class FindCommand implements Command {
      * containing the keyword and displaying the results in the UI.
      */
     @Override
-    public String execute(TaskList tasks, Ui ui, FileHandler fileHandler) throws CortanaException, IOException {
+    public String execute(TaskList tasks, FileHandler fileHandler) throws CortanaException, IOException {
         return "Here are the matching tasks in your list:\n\t" + tasks.find(keyword).toString();
     }
 }

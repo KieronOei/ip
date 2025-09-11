@@ -10,7 +10,6 @@ import cortana.task.Event;
 import cortana.task.Task;
 import cortana.task.TaskList;
 import cortana.task.ToDo;
-import cortana.ui.Ui;
 
 /**
  * Handles adding of new tasks such as cortana.task.ToDo, cortana.task.Deadline, and
@@ -70,7 +69,7 @@ public class AddCommand implements Command {
      * task to persistent storage.
      */
     @Override
-    public String execute(TaskList tasks, Ui ui, FileHandler fileHandler)
+    public String execute(TaskList tasks, FileHandler fileHandler)
             throws CortanaException, IOException {
         Task task;
         switch (type) {

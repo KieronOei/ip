@@ -2,7 +2,6 @@ package cortana.command;
 
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
-import cortana.ui.Ui;
 
 /**
  * Represents the exit command which ends the chatbot session.
@@ -13,7 +12,7 @@ public class ExitCommand implements Command {
      * Executes the exit command, displaying a farewell message.
      */
     @Override
-    public String execute(TaskList tasks, Ui ui, FileHandler fileHandler) {
+    public String execute(TaskList tasks, FileHandler fileHandler) {
         return "Exit";
     }
 
