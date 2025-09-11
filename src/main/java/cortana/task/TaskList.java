@@ -125,10 +125,10 @@ public class TaskList {
         if (tasks.isEmpty()) {
             return "There are no items in your list at the moment.";
         } else {
-            String output = "Here are the tasks in your list:";
+            String output = "";
             // For every item in the list, add it to output string
             for (int i = 0; i < tasks.size(); i++) {
-                output += String.format("\n\t%d. %s", i + 1, tasks.get(i));
+                output += String.format("%d. %s", i + 1, tasks.get(i));
             }
             return output;
         }

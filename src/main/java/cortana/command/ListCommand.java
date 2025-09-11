@@ -13,6 +13,10 @@ public class ListCommand implements Command {
      */
     @Override
     public String execute(TaskList taskList, FileHandler fileHandler) {
-        return taskList.toString();
+        if (taskList.toString().contains("no")) {
+            return taskList.toString();
+        } else {
+            return "Here are the items in your list:\n\t" + taskList.toString();
+        }
     }
 }
