@@ -3,6 +3,7 @@ package cortana.core;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 
 import cortana.command.AddCommand;
 import cortana.command.Command;
@@ -88,8 +89,8 @@ public class Parser {
                 if (firstTokenSplit.length < 2) {
                     throw new CortanaException("Specify keyword to find");
                 }
-                String keyword = firstTokenSplit[1];
-                return new FindCommand(keyword);
+                String[] keywords = Arrays.copyOfRange(firstTokenSplit, 1, firstTokenSplit.length);
+                return new FindCommand(keywords);
 
             case LIST:
                 return new ListCommand();

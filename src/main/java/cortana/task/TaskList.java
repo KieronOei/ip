@@ -92,19 +92,30 @@ public class TaskList {
      * contains the specified keyword.
      * <p> The search is case-sensitive and checks the task's {@code toString()} output.
      *
-     * @param keyword the keyword to search for in task descriptions
+     * @param keywords the keyword to search for in task descriptions
      * @return a new TaskList containing all matching tasks
      */
-    public TaskList find(String keyword) {
+    public TaskList find(String ... keywords) {
         TaskList result = new TaskList();
         for (Task task : tasks) {
-            if (task.toString().contains(keyword)) {
-                result.add(task);
+            for (String keyword: keywords) {
+                if (!result.contains(task) && task.toString().contains(keyword)) {
+                    result.add(task);
+                }
             }
         }
         return result;
     }
 
+    /**
+     * Returns true or false on whether a task is in the list
+     *
+     * @param task the task to check
+     * @return a boolean on whether the task is in the list
+     */
+    private Boolean contains(Task task) {
+        return tasks.contains(task);
+    }
 
     /**
      * Returns the number of tasks in the list.
@@ -128,9 +139,9 @@ public class TaskList {
             String output = "";
             // For every item in the list, add it to output string
             for (int i = 0; i < tasks.size(); i++) {
-                output += String.format("%d. %s", i + 1, tasks.get(i));
+                output += String.format("%d. %s\n\t", i + 1, tasks.get(i));
             }
-            return output;
+            return output.strip();
         }
     }
 }
