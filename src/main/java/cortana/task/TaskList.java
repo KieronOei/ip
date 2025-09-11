@@ -29,7 +29,7 @@ public class TaskList {
      */
     public String add(Task task) {
         tasks.add(task);
-        return "Added:\n\t\t" + task + "\n\tNow you have " + (tasks.size()) + " task(s) in the list";
+        return "Added:\n\t" + task + "\nNow you have " + (tasks.size()) + " task(s) in the list";
     }
 
     /**
@@ -45,9 +45,9 @@ public class TaskList {
             throw new CortanaException("Action failed. Choose a valid task number");
         } else {
             Task task = tasks.remove(index);
-            return "Deleted:\n\t\t"
+            return "Deleted:\n\t"
                     + task
-                    + "\n\tNow you have "
+                    + "\nNow you have "
                     + (tasks.size())
                     + " task(s) in the list";
         }
@@ -66,7 +66,7 @@ public class TaskList {
             throw new CortanaException("Action failed. Choose a valid task number");
         } else {
             tasks.get(index).mark();
-            return "That was quick! cortana.task.Task marked as done:\n\t" + tasks.get(index);
+            return "That was quick! Task marked as done:\n\t" + tasks.get(index);
         }
     }
 
@@ -83,7 +83,7 @@ public class TaskList {
             throw new CortanaException("Action failed. Choose a valid task number");
         } else {
             tasks.get(index).unmark();
-            return "No worries! cortana.task.Task marked as not done yet:\n\t" + tasks.get(index);
+            return "No worries! Task marked as not done yet:\n\t" + tasks.get(index);
         }
     }
 
@@ -123,9 +123,9 @@ public class TaskList {
     @Override
     public String toString() {
         if (tasks.isEmpty()) {
-            return "\n\tThere are no items in your list at the moment.";
+            return "There are no items in your list at the moment.";
         } else {
-            String output = "\n\tHere are the tasks in your list:";
+            String output = "Here are the tasks in your list:";
             // For every item in the list, add it to output string
             for (int i = 0; i < tasks.size(); i++) {
                 output += String.format("\n\t%d. %s", i + 1, tasks.get(i));

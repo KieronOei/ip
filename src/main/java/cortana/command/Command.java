@@ -17,10 +17,11 @@ public interface Command {
      * @param tasks       the task list to operate on
      * @param ui          the UI helper for input/output
      * @param fileHandler the file handler for persistence
+     * @return a string for the GUI to display
      * @throws CortanaException if command execution fails due to invalid input or logic error
      * @throws IOException      if an I/O error occurs when saving/loading data
      */
-    void execute(TaskList tasks, Ui ui, FileHandler fileHandler) throws CortanaException, IOException;
+    String execute(TaskList tasks, Ui ui, FileHandler fileHandler) throws CortanaException, IOException;
 
     /**
      * Returns true if this command signals the program should exit. Default implementation returns

@@ -25,17 +25,12 @@ public class UnMarkCommand implements Command {
     /**
      * Executes the command to unmark the specified task. Updates the task list and persists the mark
      * status using cortana.storage.FileHandler.
-     *
-     * @param taskList    The list of tasks to modify
-     * @param ui          The UI for displaying output messages
-     * @param fileHandler The handler responsible for saving task changes
-     * @throws CortanaException if the task index is invalid
-     * @throws IOException      if an I/O error occurs during saving
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, FileHandler fileHandler)
+    public String execute(TaskList taskList, Ui ui, FileHandler fileHandler)
             throws CortanaException, IOException {
-        ui.showOutput(taskList.unmark(taskNumber));
+        String output = taskList.unmark(taskNumber);
         fileHandler.saveMarkValue(taskList, taskNumber, "0");
+        return output;
     }
 }
