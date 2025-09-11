@@ -1,7 +1,6 @@
 package cortana.core;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 import cortana.command.Command;
 import cortana.exception.CortanaException;
@@ -10,8 +9,8 @@ import cortana.task.TaskList;
 import cortana.ui.Ui;
 
 /**
- * The cortana.core.Cortana chatbot class responsible for initializing, running the main input loop,
- * and coordinating components.
+ * The cortana.core.Cortana chatbot class responsible for initializing,
+ * and handling user input.
  */
 public class Cortana {
 
@@ -32,53 +31,33 @@ public class Cortana {
     }
 
     /**
-     * Main method creates a cortana.core.Cortana instance with the task file path and runs it.
-     *
-     * @param args cortana.command.Command line arguments (unused).
-     */
-    public static void main(String[] args) {
-        new Cortana(new Ui(), new FileHandler(Path.of("data/tasks.txt"))).run();
-    }
-
-    /**
      * Initializes the chatbot by ensuring the task file exists, preparing it,
      * loading tasks, and displaying relevant output messages.
      * If loading tasks fails due to IO or Cortana exceptions, a new task list is created,
      * and an appropriate message is displayed.
      * Finally, it shows a greeting message to the user.
      */
-    public void initialize() {
+    public String initialize() {
         try {
             fileHandler.ensureFileExists();
             fileHandler.checkAndPrepareFile();
             tasks = fileHandler.loadTasks();
-            ui.showOutput("Data has been loaded from: " + fileHandler.getFilePath());
+            return "Welcome back chief!\nYour past data has been loaded from: " + fileHandler.getFilePath();
         } catch (IOException | CortanaException e) {
             tasks = new TaskList();
-            ui.showOutput("Something went wrong, a new file has been created at: " + fileHandler.getFilePath());
+            return "Welcome back!\nSomething went wrong, a new file has been created at: " + fileHandler.getFilePath();
         }
-        ui.showGreeting();
     }
 
     /**
-     * Starts the chatbot, loading data, showing greetings, and running the command processing loop.
+     * Generates a response for the user's chat message.
      */
-    public void run() {
-        initialize();
-
-        boolean isExit = false;
-        // Loop for user commands until exit signal
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                Command command = Parser.parse(fullCommand);
-                command.execute(tasks, ui, fileHandler);
-                isExit = command.isExit();
-            } catch (CortanaException e) {
-                ui.showOutput(e.getMessage());
-            } catch (IOException e) {
-                ui.showOutput("File error occurred: " + e.getMessage());
-            }
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+            return command.execute(tasks, ui, fileHandler);
+        } catch (IOException | CortanaException e) {
+            return e.getMessage();
         }
     }
 }

@@ -37,7 +37,7 @@ public class AddCommand implements Command {
     }
 
     /**
-     * Constructs an cortana.command.AddCommand for a cortana.task.Deadline task.
+     * Constructs a cortana.command.AddCommand for a cortana.task.Deadline task.
      *
      * @param taskName The name of the cortana.task.Deadline task
      * @param deadline The deadline date and time
@@ -51,7 +51,7 @@ public class AddCommand implements Command {
     }
 
     /**
-     * Constructs an cortana.command.AddCommand for an cortana.task.Event task.
+     * Constructs a cortana.command.AddCommand for an cortana.task.Event task.
      *
      * @param taskName The name of the cortana.task.Event task
      * @param from     The event start date and time
@@ -68,16 +68,9 @@ public class AddCommand implements Command {
     /**
      * Executes the add command, adding the task to the task list, displaying output, and saving the
      * task to persistent storage.
-     *
-     * @param tasks       The cortana.task.TaskList to add to
-     * @param ui          The UI for output display
-     * @param fileHandler The cortana.storage.FileHandler for saving task data
-     * @throws CortanaException if an invalid task type is encountered
-     * @throws IOException      if an I/O error occurs while saving data
      */
-    @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @Override
-    public void execute(TaskList tasks, Ui ui, FileHandler fileHandler)
+    public String execute(TaskList tasks, Ui ui, FileHandler fileHandler)
             throws CortanaException, IOException {
         Task task;
         switch (type) {
@@ -93,7 +86,7 @@ public class AddCommand implements Command {
         default:
             throw new CortanaException("Invalid task type in cortana.command.AddCommand");
         }
-        ui.showOutput(tasks.add(task));
+        String output = tasks.add(task);
         // call appropriate save method
         switch (type) {
         case TODO:
@@ -108,5 +101,6 @@ public class AddCommand implements Command {
         default:
             throw new CortanaException("Something went wrong, your task could not be saved");
         }
+        return output;
     }
 }
