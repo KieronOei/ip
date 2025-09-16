@@ -113,7 +113,7 @@ public class Parser {
      * @return A LocalDateTime object parsed from the string.
      * @throws CortanaException if the string cannot be parsed into a valid date.
      */
-    private static LocalDateTime parseDate(String dateString) throws CortanaException {
+    public static LocalDateTime parseDate(String dateString) throws CortanaException {
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("d M yy HHmm");
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("d MMM yy HHmm");
         try {
