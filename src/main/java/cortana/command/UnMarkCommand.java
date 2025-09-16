@@ -29,7 +29,7 @@ public class UnMarkCommand implements Command {
     public String execute(TaskList taskList, FileHandler fileHandler)
             throws CortanaException, IOException {
         String output = taskList.unmark(taskNumber);
-        fileHandler.saveMarkValue(taskList, taskNumber, "0");
+        fileHandler.saveMarkValue(taskNumber, "0");
         return output;
     }
 }

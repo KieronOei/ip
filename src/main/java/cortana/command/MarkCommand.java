@@ -29,7 +29,7 @@ public class MarkCommand implements Command {
     public String execute(TaskList taskList, FileHandler fileHandler)
             throws CortanaException, IOException {
         String output = taskList.mark(taskNumber);
-        fileHandler.saveMarkValue(taskList, taskNumber, "1");
+        fileHandler.saveMarkValue(taskNumber, "1");
         return output;
     }
 }

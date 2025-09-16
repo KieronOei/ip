@@ -38,6 +38,7 @@ public class Cortana {
             fileHandler.ensureFileExists();
             fileHandler.checkAndPrepareFile();
             tasks = fileHandler.loadTasks();
+            assert tasks != null : "loadTasks() method should not return null";
             return "Welcome back chief!\nYour past data has been loaded from: " + fileHandler.getFilePath();
         } catch (IOException | CortanaException e) {
             tasks = new TaskList();
