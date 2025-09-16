@@ -39,58 +39,25 @@ public class Parser {
         try {
             switch (commandType) {
             case TODO:
-                if (firstTokenSplit.length < 2) {
-                    throw new CortanaException("Specify task name");
-                }
-                String todoName = fullCommand.substring(firstTokenSplit[0].length()).trim();
-                return new AddCommand(todoName);
+                return parseToDoCommand(firstTokenSplit, fullCommand);
 
             case DEADLINE:
-                if (firstTokenSplit.length < 2 || splitBySlash.length < 2) {
-                    throw new CortanaException("Specify task name and deadline with /by");
-                }
-                String deadlineName =
-                        firstTokenSplit[1] + (splitBySlash.length > 2 ? " " + splitBySlash[2] : "");
-                LocalDateTime deadlineDate = parseDate(splitBySlash[1].trim().substring(3));
-                return new AddCommand(deadlineName, deadlineDate);
+                return parseDeadlineCommand(firstTokenSplit, splitBySlash);
 
             case EVENT:
-                if (firstTokenSplit.length < 2 || splitBySlash.length < 3) {
-                    throw new CortanaException("Specify task name and /from and /to times");
-                }
-                String eventName =
-                        firstTokenSplit[1] + (splitBySlash.length > 3 ? " " + splitBySlash[3] : "");
-                LocalDateTime fromDate = parseDate(splitBySlash[1].trim().substring(5));
-                LocalDateTime toDate = parseDate(splitBySlash[2].trim().substring(3));
-                return new AddCommand(eventName, fromDate, toDate);
+                return parseEventCommand(firstTokenSplit, splitBySlash);
 
             case MARK:
-                if (firstTokenSplit.length < 2) {
-                    throw new CortanaException("Specify task number to mark");
-                }
-                int maskNumber = Integer.parseInt(firstTokenSplit[1]);
-                return new MarkCommand(maskNumber);
+                return parseMarkCommand(firstTokenSplit);
 
             case UNMARK:
-                if (firstTokenSplit.length < 2) {
-                    throw new CortanaException("Specify task number to unmark");
-                }
-                int unMaskNumber = Integer.parseInt(firstTokenSplit[1]);
-                return new UnMarkCommand(unMaskNumber);
+                return parseUnMarkCommand(firstTokenSplit);
 
             case DELETE:
-                if (firstTokenSplit.length < 2) {
-                    throw new CortanaException("Specify task number to delete");
-                }
-                int deleteIndex = Integer.parseInt(firstTokenSplit[1]);
-                return new DeleteCommand(deleteIndex);
+                return parseDeleteCommand(firstTokenSplit);
 
             case FIND:
-                if (firstTokenSplit.length < 2) {
-                    throw new CortanaException("Specify keyword to find");
-                }
-                String[] keywords = Arrays.copyOfRange(firstTokenSplit, 1, firstTokenSplit.length);
-                return new FindCommand(keywords);
+                return parseFindCommand(firstTokenSplit);
 
             case LIST:
                 return new ListCommand();
@@ -125,5 +92,118 @@ public class Parser {
                 throw new CortanaException("Invalid date format. Use d M yy HHmm or d MMM yy HHmm");
             }
         }
+    }
+
+    /**
+     * Parses the TODO command and constructs an AddCommand.
+     *
+     * @param firstTokenSplit The split tokens of the command input.
+     * @param fullCommand The original full input string.
+     * @return An AddCommand representing the todo task.
+     * @throws CortanaException if the task name is missing.
+     */
+    private static Command parseToDoCommand(String[] firstTokenSplit, String fullCommand) throws CortanaException {
+        if (firstTokenSplit.length < 2) {
+            throw new CortanaException("Specify task name");
+        }
+        String todoName = fullCommand.substring(firstTokenSplit[0].length()).trim();
+        return new AddCommand(todoName);
+    }
+
+    /**
+     * Parses the DEADLINE command and constructs an AddCommand with deadline.
+     *
+     * @param firstTokenSplit The split tokens of the command input.
+     * @param splitBySlash The input split by '/' characters.
+     * @return An AddCommand representing the deadline task.
+     * @throws CortanaException if the task name or deadline is missing or malformed.
+     */
+    private static Command parseDeadlineCommand(String[] firstTokenSplit, String[] splitBySlash) throws CortanaException {
+        if (firstTokenSplit.length < 2 || splitBySlash.length < 2) {
+            throw new CortanaException("Specify task name and deadline with /by");
+        }
+        String deadlineName =
+                firstTokenSplit[1] + (splitBySlash.length > 2 ? " " + splitBySlash[2] : "");
+        LocalDateTime deadlineDate = parseDate(splitBySlash[1].trim().substring(3));
+        return new AddCommand(deadlineName, deadlineDate);
+    }
+
+    /**
+     * Parses the EVENT command and constructs an AddCommand with from and to dates.
+     *
+     * @param firstTokenSplit The split tokens of the command input.
+     * @param splitBySlash The input split by '/' characters.
+     * @return An AddCommand representing the event task.
+     * @throws CortanaException if the task name or dates are missing or malformed.
+     */
+    private static Command parseEventCommand(String[] firstTokenSplit, String[] splitBySlash) throws CortanaException {
+        if (firstTokenSplit.length < 2 || splitBySlash.length < 3) {
+            throw new CortanaException("Specify task name and /from and /to times");
+        }
+        String eventName =
+                firstTokenSplit[1] + (splitBySlash.length > 3 ? " " + splitBySlash[3] : "");
+        LocalDateTime fromDate = parseDate(splitBySlash[1].trim().substring(5));
+        LocalDateTime toDate = parseDate(splitBySlash[2].trim().substring(3));
+        return new AddCommand(eventName, fromDate, toDate);
+    }
+
+    /**
+     * Parses the MARK command and constructs a MarkCommand.
+     *
+     * @param firstTokenSplit The split tokens of the command input.
+     * @return A MarkCommand indicating which task to mark.
+     * @throws CortanaException if the task number is missing or invalid.
+     */
+    private static Command parseMarkCommand(String[] firstTokenSplit) throws CortanaException {
+        if (firstTokenSplit.length < 2) {
+            throw new CortanaException("Specify task number to mark");
+        }
+        int maskNumber = Integer.parseInt(firstTokenSplit[1]);
+        return new MarkCommand(maskNumber);
+    }
+
+    /**
+     * Parses the UNMARK command and constructs an UnMarkCommand.
+     *
+     * @param firstTokenSplit The split tokens of the command input.
+     * @return An UnMarkCommand indicating which task to unmark.
+     * @throws CortanaException if the task number is missing or invalid.
+     */
+    private static Command parseUnMarkCommand(String[] firstTokenSplit) throws CortanaException {
+        if (firstTokenSplit.length < 2) {
+            throw new CortanaException("Specify task number to unmark");
+        }
+        int unMaskNumber = Integer.parseInt(firstTokenSplit[1]);
+        return new UnMarkCommand(unMaskNumber);
+    }
+
+    /**
+     * Parses the DELETE command and constructs a DeleteCommand.
+     *
+     * @param firstTokenSplit The split tokens of the command input.
+     * @return A DeleteCommand indicating which task to delete.
+     * @throws CortanaException if the task number is missing or invalid.
+     */
+    private static Command parseDeleteCommand(String[] firstTokenSplit) throws CortanaException {
+        if (firstTokenSplit.length < 2) {
+            throw new CortanaException("Specify task number to delete");
+        }
+        int deleteIndex = Integer.parseInt(firstTokenSplit[1]);
+        return new DeleteCommand(deleteIndex);
+    }
+
+    /**
+     * Parses the FIND command and constructs a FindCommand.
+     *
+     * @param firstTokenSplit The split tokens of the command input.
+     * @return A FindCommand with the keywords to search.
+     * @throws CortanaException if no keyword is specified.
+     */
+    private static Command parseFindCommand(String[] firstTokenSplit) throws CortanaException {
+        if (firstTokenSplit.length < 2) {
+            throw new CortanaException("Specify keyword to find");
+        }
+        String[] keywords = Arrays.copyOfRange(firstTokenSplit, 1, firstTokenSplit.length);
+        return new FindCommand(keywords);
     }
 }
