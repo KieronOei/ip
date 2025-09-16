@@ -89,13 +89,13 @@ public class AddCommand implements Command {
         // call appropriate save method
         switch (type) {
         case TODO:
-            fileHandler.saveToDo(tasks, task.toString());
+            fileHandler.saveToDo(task.toString());
             break;
         case DEADLINE:
-            fileHandler.saveDeadline(tasks, task.toString());
+            fileHandler.saveDeadline(task.toString());
             break;
         case EVENT:
-            fileHandler.saveEvent(tasks, task.toString());
+            fileHandler.saveEvent(task.toString());
             break;
         default:
             throw new CortanaException("Something went wrong, your task could not be saved");
