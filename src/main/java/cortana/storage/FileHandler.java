@@ -182,12 +182,10 @@ public class FileHandler {
      * Saves a new task string to the data file.
      * The task string is expected in the format: "[T][ ] Read Book".
      * This is converted and appended as "T | 0 | Read Book".
-     *
-     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param taskString the string representation of the cortana.task.ToDo task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
-    public void saveToDo(TaskList tasks, String taskString) throws CortanaException {
+    public void saveToDo(String taskString) throws CortanaException {
         String taskType = taskString.substring(1, 2);
         String description = taskString.substring(7).trim();
         String newString = taskType + " | 0 | " + description + "\n";
@@ -203,12 +201,10 @@ public class FileHandler {
      * Saves a new task string to the data file.
      * The task string is expected in the format: "[T][ ] Read Book (by: Sunday)".
      * This is converted and appended as "T | 0 | Read Book | Sunday".
-     *
-     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param taskString the string representation of the cortana.task.Deadline task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
-    public void saveDeadline(TaskList tasks, String taskString) throws CortanaException {
+    public void saveDeadline(String taskString) throws CortanaException {
         String taskType = taskString.substring(1, 2);
         // Find the substring start index of "(by: "
         int startBy = taskString.indexOf("(by: ");
@@ -230,12 +226,10 @@ public class FileHandler {
      * Saves a new task string to the data file.
      * The task string is expected in the format: "[T][ ] Read Book (from: Sunday 4pm to: 6pm)".
      * This is converted and appended as "T | 0 | Read Book | Sunday 4pm | 6pm".
-     *
-     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param taskString the string representation of the cortana.task.Event task to save
      * @throws CortanaException if an I/O error occurs during file writing
      */
-    public void saveEvent(TaskList tasks, String taskString) throws CortanaException {
+    public void saveEvent(String taskString) throws CortanaException {
         String taskType = taskString.substring(1, 2);
         // Find the substring start index of "(by: "
         int startFrom = taskString.indexOf("(from: ");
@@ -259,13 +253,11 @@ public class FileHandler {
 
     /**
      * Updates the done status mark value (0 or 1) on a specific line in the data file.
-     *
-     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param lineNumber the 1-based line number to update
      * @param markValue  the mark value to set ("0" or "1")
      * @throws CortanaException if an I/O error occurs during update
      */
-    public void saveMarkValue(TaskList tasks, int lineNumber, String markValue) throws CortanaException {
+    public void saveMarkValue(int lineNumber, String markValue) throws CortanaException {
         try {
             List<String> lines = Files.readAllLines(filePath);
             String line = lines.get(lineNumber - 1);
@@ -290,12 +282,10 @@ public class FileHandler {
 
     /**
      * Deletes a task line from the data file by line number.
-     *
-     * @param tasks      the current cortana.task.TaskList (not used here but may be useful)
      * @param lineNumber the 1-based line number of the task to delete
      * @throws CortanaException if an I/O error occurs during delete
      */
-    public void saveDelete(TaskList tasks, int lineNumber) throws CortanaException {
+    public void saveDelete(int lineNumber) throws CortanaException {
         try {
             List<String> lines = Files.readAllLines(filePath);
             lines.remove(lineNumber - 1);

@@ -29,7 +29,7 @@ public class DeleteCommand implements Command {
     public String execute(TaskList taskList, FileHandler fileHandler)
             throws CortanaException, IOException {
         String output = taskList.delete(taskNumber);
-        fileHandler.saveDelete(taskList, taskNumber);
+        fileHandler.saveDelete(taskNumber);
         return output;
     }
 }
