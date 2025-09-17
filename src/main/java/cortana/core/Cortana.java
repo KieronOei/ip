@@ -3,6 +3,7 @@ package cortana.core;
 import java.io.IOException;
 
 import cortana.command.Command;
+import cortana.command.HelpCommand;
 import cortana.exception.CortanaException;
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
@@ -39,7 +40,8 @@ public class Cortana {
             fileHandler.checkAndPrepareFile();
             tasks = fileHandler.loadTasks();
             assert tasks != null : "loadTasks() method should not return null";
-            return "Welcome back chief!\nYour past data has been loaded from: " + fileHandler.getFilePath();
+            return "Welcome back chief!\n\nInput 'help' to view a list of available commands."
+                    + "\n\nYour past data has been loaded from: " + fileHandler.getFilePath();
         } catch (IOException | CortanaException e) {
             tasks = new TaskList();
             return "Welcome back!\nSomething went wrong, a new file has been created at: " + fileHandler.getFilePath();

@@ -41,7 +41,10 @@ public enum CommandType {
      * cortana.command.Command to list all tasks.
      */
     LIST,
-
+    /**
+     * cortana.command.Command to display help information.
+     */
+    HELP,
     /**
      * cortana.command.Command to find tasks by keywords.
      */
