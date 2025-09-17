@@ -118,7 +118,8 @@ public class Parser {
      * @return An AddCommand representing the deadline task.
      * @throws CortanaException if the task name or deadline is missing or malformed.
      */
-    private static Command parseDeadlineCommand(String[] firstTokenSplit, String[] splitBySlash) throws CortanaException {
+    private static Command parseDeadlineCommand(String[] firstTokenSplit, String[] splitBySlash)
+            throws CortanaException {
         if (firstTokenSplit.length < 2 || splitBySlash.length < 2) {
             throw new CortanaException("Specify task name and deadline with /by");
         }
