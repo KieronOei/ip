@@ -111,17 +111,6 @@ public class TaskList {
                 .forEach(result::add);
         return result;
     }
-
-    /**
-     * Returns true or false on whether a task is in the list
-     *
-     * @param task the task to check
-     * @return a boolean on whether the task is in the list
-     */
-    private Boolean contains(Task task) {
-        return tasks.contains(task);
-    }
-
     /**
      * Returns the number of tasks in the list.
      *
