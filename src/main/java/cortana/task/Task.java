@@ -1,5 +1,7 @@
 package cortana.task;
 
+import java.util.Objects;
+
 import cortana.exception.CortanaException;
 
 /**
@@ -43,7 +45,49 @@ public abstract class Task {
         }
         isDone = false;
     }
+    /**
+     * Gets name field of task.
+     *
+     * @return name of task
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * Gets isDone field of task.
+     * @return boolean representing whether task is done
+     */
+    public boolean getIsDone() {
+        return isDone;
+    }
 
+    /**
+     * Compares this task object (of the same class) to another task object by name and isDone fields
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // object check
+            return true;
+        }
+        if (obj == null) { // null check
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) { // class check
+            return false;
+        }
+        Task task = (Task) obj;
+        return Objects.equals(this.getName(), task.getName()) && this.getIsDone() == task.getIsDone();
+    }
+    /**
+     * Generates a hash code for the ToDo object based on its name and isDone fields.
+     * @return the hash code value for this object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getName(), this.getIsDone());
+    }
     /**
      * Returns string representation of the task. Subclasses should override for specific formatting.
      *

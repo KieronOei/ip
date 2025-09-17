@@ -2,6 +2,7 @@ package cortana.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * Represents an event task with a start and end date/time.
@@ -29,6 +30,32 @@ public class Event extends Task {
         super(name);
         this.from = from;
         this.to = to;
+    }
+
+    /**
+     * Checks equality between this Event and another object.
+     * Two Event objects are considered equal if they have passed the superclass equality check,
+     * and their 'from' and 'to' fields are equal.
+     * @param obj
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) {
+            return false;
+        }
+        Event event = (Event) obj;
+        return from.equals(event.from) && to.equals(event.to);
+    }
+
+    /**
+     * Generates a hash code for the Event object, combining the superclass hash code
+     * with the hash codes of the 'from' and 'to' fields.
+     * @return the computed hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), from, to);
     }
 
     /**

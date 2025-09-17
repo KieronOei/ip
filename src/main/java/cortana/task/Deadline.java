@@ -2,6 +2,7 @@ package cortana.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * Represents a deadline task with a specific due date and time.
@@ -22,6 +23,32 @@ public class Deadline extends Task {
     public Deadline(String name, LocalDateTime by) {
         super(name);
         this.by = by;
+    }
+
+    /**
+     * Checks equality between this Deadline and another object.
+     * Two Deadline objects are considered equal if they have passed the superclass equality check,
+     * and their 'by' fields are equal.
+     * @param obj
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) {
+            return false;
+        }
+        Deadline deadline = (Deadline) obj;
+        return by.equals(deadline.by);
+    }
+
+    /**
+     * Generates a hash code for the Deadline object, combining the superclass hash code
+     * with the hash codes of the 'by' fields.
+     * @return the computed hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), by);
     }
 
     /**
