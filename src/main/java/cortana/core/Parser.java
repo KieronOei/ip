@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import cortana.command.AddCommand;
 import cortana.command.Command;
@@ -95,6 +96,17 @@ public class Parser {
     }
 
     /**
+     * Parses the task name from the firstTokenSplit.
+     * Combines all the tokens after the command into a single string.
+     * @param firstTokenSplit
+     * @return The parsed task name.
+     */
+    private static String parseName(String[] firstTokenSplit) {
+        return Arrays.stream(firstTokenSplit, 1, firstTokenSplit.length)
+                .collect(Collectors.joining(" "));
+    }
+
+    /**
      * Parses the TODO command and constructs an AddCommand.
      *
      * @param firstTokenSplit The split tokens of the command input.
@@ -106,7 +118,7 @@ public class Parser {
         if (firstTokenSplit.length < 2) {
             throw new CortanaException("Specify task name");
         }
-        String todoName = fullCommand.substring(firstTokenSplit[0].length()).trim();
+        String todoName = parseName(firstTokenSplit);
         return new AddCommand(todoName);
     }
 
@@ -123,8 +135,7 @@ public class Parser {
         if (firstTokenSplit.length < 2 || splitBySlash.length < 2) {
             throw new CortanaException("Specify task name and deadline with /by");
         }
-        String deadlineName =
-                firstTokenSplit[1] + (splitBySlash.length > 2 ? " " + splitBySlash[2] : "");
+        String deadlineName = parseName(firstTokenSplit);
         LocalDateTime deadlineDate = parseDate(splitBySlash[1].trim().substring(3));
         return new AddCommand(deadlineName, deadlineDate);
     }
@@ -141,8 +152,7 @@ public class Parser {
         if (firstTokenSplit.length < 2 || splitBySlash.length < 3) {
             throw new CortanaException("Specify task name and /from and /to times");
         }
-        String eventName =
-                firstTokenSplit[1] + (splitBySlash.length > 3 ? " " + splitBySlash[3] : "");
+        String eventName = parseName(firstTokenSplit);
         LocalDateTime fromDate = parseDate(splitBySlash[1].trim().substring(5));
         LocalDateTime toDate = parseDate(splitBySlash[2].trim().substring(3));
         return new AddCommand(eventName, fromDate, toDate);
