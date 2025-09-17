@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,27 +31,15 @@ class TaskListTest {
 
     /**
      * Tests that adding any task increases the size of the task list.
-     * Adding a task should not throw a CortanaException.
      */
     @Test
     void add_anyTask_sizeShouldIncrease() {
         taskList.add(new ToDo("Read book"));
         assertEquals(1, taskList.size());
-
-        try {
-            taskList.add(new Deadline("Return book", parseDate("16 9 25 1600")));
-        } catch (CortanaException e) {
-            // This should not happen
-            fail();
-        }
+        taskList.add(new Deadline("Return book", LocalDateTime.now().plusHours(1)));
         assertEquals(2, taskList.size());
-
-        try {
-            taskList.add(new Event("Report book findings", parseDate("16 9 25 1400"), parseDate("16 9 25 1500")));
-        } catch (CortanaException e) {
-            // This should not happen
-            fail();
-        }
+        taskList.add(new Event("Report book findings", LocalDateTime.now().plusHours(1),
+                LocalDateTime.now().plusHours(2)));
         assertEquals(3, taskList.size());
     }
 
@@ -73,23 +63,17 @@ class TaskListTest {
         String result = taskList.add(new ToDo("Read book"));
         assertTrue(result.contains("already in your list"));
         assertEquals(1, taskList.size());
-        try {
-            taskList.add(new Deadline("Return book", parseDate("16 9 25 1600")));
-            result = taskList.add(new Deadline("Return book", parseDate("16 9 25 1600")));
-        } catch (CortanaException e) {
-            // This should not happen
-            fail();
-        }
+        // Use a fixed date to ensure equality
+        LocalDateTime by = LocalDateTime.now().plusHours(1);
+        taskList.add(new Deadline("Return book", by));
+        result = taskList.add(new Deadline("Return book", by));
         assertTrue(result.contains("already in your list"));
         assertEquals(2, taskList.size());
-        try {
-            taskList.add(new Event("Report book findings", parseDate("16 9 25 1400"), parseDate("16 9 25 1500")));
-            result = taskList.add(new Event("Report book findings",
-                    parseDate("16 9 25 1400"), parseDate("16 9 25 1500")));
-        } catch (CortanaException e) {
-            // This should not happen
-            fail();
-        }
+        // Use fixed dates to ensure equality
+        LocalDateTime from = LocalDateTime.now().plusHours(1);
+        LocalDateTime to = LocalDateTime.now().plusHours(2);
+        taskList.add(new Event("Report book findings", from, to));
+        result = taskList.add(new Event("Report book findings", from, to));
         assertTrue(result.contains("already in your list"));
         assertEquals(3, taskList.size());
     }
@@ -139,5 +123,83 @@ class TaskListTest {
         }
         assertTrue(result.contains("Deleted:"));
         assertTrue(result.contains("0"));
+    }
+    /**
+     * Tests that marking a valid task updates its status as done.
+     */
+    @Test
+    void mark_validTaskNumber_xShouldAppearInBrackets() {
+        taskList.add(new ToDo("Read book"));
+        String result = null;
+        try {
+            result = taskList.mark(1);
+        } catch (CortanaException e) {
+            // This should not happen
+            fail();
+        }
+        assertTrue(result.contains("[X]"));
+    }
+    /**
+     * Tests that marking a valid task returns a string containing a marked message.
+     * Marking a task should not throw a CortanaException.
+     */
+    @Test
+    void mark_invalidTaskNumber_exceptionThrown() {
+        taskList.add(new ToDo("Read book"));
+        // User may think task number starts from 0
+        assertThrows(CortanaException.class, () -> taskList.mark(0));
+        // User may mistakenly think there are more items than present
+        assertThrows(CortanaException.class, () -> taskList.mark(2));
+    }
+    /**
+     * Tests that marking an already marked task throws a CortanaException.
+     */
+    @Test
+    void mark_alreadyMarkedTask_exceptionThrown() {
+        taskList.add(new ToDo("Read book"));
+        try {
+            taskList.mark(1);
+        } catch (CortanaException e) {
+            // This should not happen
+            fail();
+        }
+        assertThrows(CortanaException.class, () -> taskList.mark(1));
+    }
+    /**
+     * Tests that unmarking a valid task updates its status as not done.
+     */
+    @Test
+    void unmark_validTaskNumber_blankShouldAppearInBrackets() {
+        taskList.add(new ToDo("Read book"));
+        String result = null;
+        try {
+            taskList.mark(1);
+            result = taskList.unmark(1);
+        } catch (CortanaException e) {
+            // This should not happen
+            fail();
+        }
+        assertTrue(result.contains("[ ]"));
+    }
+
+    /**
+     * Tests that unmarking a valid task returns a string containing a marked message.
+     * Marking a task should not throw a CortanaException.
+     */
+    @Test
+    void unmark_invalidTaskNumber_exceptionThrown() {
+        taskList.add(new ToDo("Read book"));
+        // User may think task number starts from 0
+        assertThrows(CortanaException.class, () -> taskList.unmark(0));
+        // User may mistakenly think there are more items than present
+        assertThrows(CortanaException.class, () -> taskList.unmark(2));
+    }
+    /**
+     * Tests that unmarking an already unmarked task throws a CortanaException.
+     */
+    @Test
+    void unmark_alreadyUnmarkedTask_exceptionThrown() {
+        taskList.add(new ToDo("Read book"));
+        assertThrows(CortanaException.class, () -> taskList.unmark(1));
     }
 }
