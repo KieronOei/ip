@@ -64,6 +64,37 @@ class TaskListTest {
     }
 
     /**
+     * Tests that adding a duplicate task does not increase the size of the task list.
+     * Adding a duplicate task should return a string indicating the duplicate.
+     */
+    @Test
+    void add_duplicateTask_returnStringShouldIndicateDuplicate() {
+        taskList.add(new ToDo("Read book"));
+        String result = taskList.add(new ToDo("Read book"));
+        assertTrue(result.contains("already in your list"));
+        assertEquals(1, taskList.size());
+        try {
+            taskList.add(new Deadline("Return book", parseDate("16 9 25 1600")));
+            result = taskList.add(new Deadline("Return book", parseDate("16 9 25 1600")));
+        } catch (CortanaException e) {
+            // This should not happen
+            fail();
+        }
+        assertTrue(result.contains("already in your list"));
+        assertEquals(2, taskList.size());
+        try {
+            taskList.add(new Event("Report book findings", parseDate("16 9 25 1400"), parseDate("16 9 25 1500")));
+            result = taskList.add(new Event("Report book findings",
+                    parseDate("16 9 25 1400"), parseDate("16 9 25 1500")));
+        } catch (CortanaException e) {
+            // This should not happen
+            fail();
+        }
+        assertTrue(result.contains("already in your list"));
+        assertEquals(3, taskList.size());
+    }
+
+    /**
      * Tests that deleting a valid task reduces the task list size.
      * Deleting a task should not throw a CortanaException.
      */

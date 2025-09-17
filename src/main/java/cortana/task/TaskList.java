@@ -26,11 +26,16 @@ public class TaskList {
 
     /**
      * Adds a task to the list.
+     * Detects duplicates based on the task's equality.
      *
      * @param task The task to add.
      * @return Confirmation message including the added task and total task count.
      */
     public String add(Task task) {
+        // Compare by equality
+        if (tasks.stream().anyMatch(t -> t.equals(task))) {
+            return "This task is already in your list!";
+        }
         tasks.add(task);
         return "Added:\n\t" + task + "\nNow you have " + (tasks.size()) + " task(s) in the list";
     }
