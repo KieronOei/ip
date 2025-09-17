@@ -4,7 +4,7 @@
 
 Cortana is a lightweight Java/Gradle CLI task manager that supports deadlines, searching, and basic task management. It validates and parses date/time input and prevents adding past deadlines.
 
-## Quick Start \/ Installation
+## Quick Start / Installation
 
 Follow these steps on macOS to build and run Cortana locally.
 
