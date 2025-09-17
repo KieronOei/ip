@@ -12,6 +12,7 @@ import cortana.command.CommandType;
 import cortana.command.DeleteCommand;
 import cortana.command.ExitCommand;
 import cortana.command.FindCommand;
+import cortana.command.HelpCommand;
 import cortana.command.ListCommand;
 import cortana.command.MarkCommand;
 import cortana.command.UnMarkCommand;
@@ -41,28 +42,22 @@ public class Parser {
             switch (commandType) {
             case TODO:
                 return parseToDoCommand(firstTokenSplit, fullCommand);
-
             case DEADLINE:
                 return parseDeadlineCommand(firstTokenSplit, splitBySlash);
-
             case EVENT:
                 return parseEventCommand(firstTokenSplit, splitBySlash);
-
             case MARK:
                 return parseMarkCommand(firstTokenSplit);
-
             case UNMARK:
                 return parseUnMarkCommand(firstTokenSplit);
-
             case DELETE:
                 return parseDeleteCommand(firstTokenSplit);
-
             case FIND:
                 return parseFindCommand(firstTokenSplit);
-
             case LIST:
                 return new ListCommand();
-
+            case HELP:
+                return new HelpCommand();
             case BYE:
                 return new ExitCommand();
 
