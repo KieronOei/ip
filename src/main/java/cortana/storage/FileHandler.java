@@ -44,18 +44,15 @@ public class FileHandler {
      * @throws IOException if directory or file creation fails
      */
     public void ensureFileExists() throws IOException {
-        // assuming txt file is stored at data/tasks.txt
-        String[] tokens = filePath.toString().split("/");
-        String directoryPath = tokens[0];
-        File dir = new File(directoryPath);
-        if (!dir.exists()) {
-            boolean createdDir = dir.mkdirs(); // create directory and parents if needed
+        Path directory = filePath.getParent(); // return directory path or null if none
+        if (directory != null && !directory.toFile().exists()) {
+            boolean createdDir = directory.toFile().mkdirs(); // create directory and parents if needed
             if (!createdDir) {
-                throw new IOException("Failed to create directory: " + directoryPath);
+                throw new IOException("Failed to create directory: " + directory.toString());
             }
         }
 
-        File file = new File(dir, tokens[1]);
+        File file = filePath.toFile();
         if (!file.exists()) {
             boolean createdFile = file.createNewFile(); // create empty file if it doesn't exist
             if (!createdFile) {
