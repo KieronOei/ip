@@ -3,7 +3,6 @@ package cortana.core;
 import java.io.IOException;
 
 import cortana.command.Command;
-import cortana.command.HelpCommand;
 import cortana.exception.CortanaException;
 import cortana.storage.FileHandler;
 import cortana.task.TaskList;
