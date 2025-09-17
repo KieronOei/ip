@@ -3,6 +3,7 @@ package cortana.core;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -77,17 +78,22 @@ public class Parser {
      * @throws CortanaException if the string cannot be parsed into a valid date.
      */
     public static LocalDateTime parseDate(String dateString) throws CortanaException {
-        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("d M yy HHmm");
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("d MMM yy HHmm");
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd M yy HHmm");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd MMM yy HHmm");
+        LocalDateTime parsedDate;
         try {
-            return LocalDateTime.parse(dateString, formatter1);
+            parsedDate = LocalDateTime.parse(dateString, formatter1);
         } catch (DateTimeParseException e) {
             try {
-                return LocalDateTime.parse(dateString, formatter2);
+                parsedDate = LocalDateTime.parse(dateString, formatter2);
             } catch (DateTimeParseException ex) {
-                throw new CortanaException("Invalid date format. Use d M yy HHmm or d MMM yy HHmm");
+                throw new CortanaException("Invalid date or date format. Use dd M yy HHmm or dd MMM yy HHmm");
             }
         }
+        if (parsedDate.isBefore(LocalDateTime.now())) {
+            throw new CortanaException("Date/time cannot be in the past.");
+        }
+        return parsedDate;
     }
 
     /**
